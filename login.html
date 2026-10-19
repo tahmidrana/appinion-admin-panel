@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in · Appinion Admin</title>
+    <meta name="theme-color" content="#f3efe8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("hearth-theme");
+          var dark = t === "dark" || ((!t || t === "system") && matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="dist/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <main class="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(30rem,43%)]">
+      <section class="relative hidden overflow-hidden bg-side px-10 py-10 text-side-fg lg:flex lg:flex-col lg:justify-between xl:px-16">
+        <div class="absolute -right-24 -top-28 h-96 w-96 rounded-full bg-ember/20 blur-3xl"></div>
+        <div class="absolute -bottom-40 left-0 h-[30rem] w-[30rem] rounded-full bg-iris/15 blur-3xl"></div>
+        <a href="index.html" class="relative flex items-center gap-3">
+          <span class="grid h-11 w-11 place-items-center rounded-xl text-white shadow-ember" style="background-image:linear-gradient(160deg,#f07445,#d94d24)">
+            <svg class="i h-5 w-5"><use href="#i-home" /></svg>
+          </span>
+          <span><span class="block font-display text-lg font-bold tracking-tight text-white">Appinion Admin</span><span class="block text-xs text-side-fg/55">Lending CRM</span></span>
+        </a>
+        <div class="relative max-w-xl pb-8">
+          <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-side-fg/75"><span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Built for better closings</p>
+          <h1 class="max-w-lg font-display text-5xl font-bold leading-[1.02] tracking-[-0.045em] text-white xl:text-6xl">The calm way to move loans forward.</h1>
+          <p class="mt-6 max-w-md text-[0.95rem] leading-7 text-side-fg/65">Keep every relationship, document, and deadline in one clear place—so your team can focus on the people behind the numbers.</p>
+          <div class="mt-10 flex items-center gap-3"><div class="flex -space-x-2"><img src="https://i.pravatar.cc/80?img=32" alt="" class="h-8 w-8 rounded-full border-2 border-side object-cover" /><img src="https://i.pravatar.cc/80?img=47" alt="" class="h-8 w-8 rounded-full border-2 border-side object-cover" /><img src="https://i.pravatar.cc/80?img=12" alt="" class="h-8 w-8 rounded-full border-2 border-side object-cover" /></div><p class="text-xs text-side-fg/60"><span class="font-bold text-white">1,200+</span> lending teams work in Appinion Admin</p></div>
+        </div>
+        <p class="relative text-xs text-side-fg/35">© 2025 Appinion Admin, Inc. · Privacy · Terms</p>
+      </section>
+
+      <section class="flex min-h-screen flex-col px-5 py-6 sm:px-10 lg:px-14 xl:px-20">
+        <header class="flex items-center justify-between">
+          <a href="index.html" class="flex items-center gap-2.5 lg:hidden"><span class="grid h-9 w-9 place-items-center rounded-xl text-white shadow-ember" style="background-image:linear-gradient(160deg,#f07445,#d94d24)"><svg class="i h-4 w-4"><use href="#i-home" /></svg></span><span class="font-display text-base font-bold">Appinion Admin</span></a>
+          <span class="hidden text-xs font-semibold text-muted lg:block">Appinion Admin Lending CRM</span>
+          <button id="themeBtn" type="button" class="icon-btn ml-auto" aria-label="Toggle dark mode"><svg class="i dark:hidden"><use href="#i-moon" /></svg><svg class="i hidden dark:block"><use href="#i-sun" /></svg></button>
+        </header>
+
+        <div class="mx-auto flex w-full max-w-[26rem] flex-1 items-center py-12">
+          <div class="w-full">
+            <div class="mb-8"><p class="mb-3 text-sm font-bold text-ember-t">Welcome back</p><h2 class="font-display text-[2.35rem] font-bold leading-tight tracking-[-0.04em] sm:text-[2.75rem]">Sign in to Appinion Admin</h2><p class="mt-2 text-sm leading-6 text-muted">Your workspace is ready when you are.</p></div>
+            <form class="space-y-5" action="index.html" method="get">
+              <div><label for="email" class="field-label">Work email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" class="field" /></div>
+              <div><div class="mb-1.5 flex items-center justify-between"><label for="password" class="field-label !mb-0">Password</label><a href="#forgot" class="text-xs font-bold text-ember-t transition hover:underline">Forgot password?</a></div><div class="relative"><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password" class="field pr-11" /><button type="button" id="showPassword" class="absolute right-2 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg" aria-label="Show password"><svg class="i"><use href="#i-eye" /></svg></button></div></div>
+              <label class="flex cursor-pointer items-center gap-2.5 text-xs font-semibold text-muted"><input type="checkbox" name="remember" class="h-4 w-4 rounded border-line2 accent-ember" />Remember me for 30 days</label>
+              <button type="submit" class="btn btn-ember h-11 w-full justify-center text-sm">Sign in to workspace<svg class="i"><use href="#i-arrow-right" /></svg></button>
+            </form>
+            <div class="my-7 flex items-center gap-3"><span class="h-px flex-1 bg-line"></span><span class="text-[0.6875rem] font-bold uppercase tracking-[.14em] text-faint">or continue with</span><span class="h-px flex-1 bg-line"></span></div>
+            <button type="button" class="btn h-11 w-full justify-center text-sm"><span class="grid h-5 w-5 place-items-center rounded bg-white text-xs font-extrabold text-[#4285f4] shadow-sm">G</span>Continue with Google</button>
+            <p class="mt-8 text-center text-sm text-muted">New to Appinion Admin? <a href="#request-access" class="font-bold text-ember-t hover:underline">Request access</a></p>
+          </div>
+        </div>
+        <p class="text-center text-xs text-faint lg:hidden">© 2025 Appinion Admin, Inc. · Privacy · Terms</p>
+      </section>
+    </main>
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" /></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M2 12h2M20 12h2" /></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.5" /></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></symbol>
+    </svg>
+    <script src="src/app.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var button = document.getElementById("showPassword");
+        var input = document.getElementById("password");
+        button?.addEventListener("click", function () { var visible = input.type === "text"; input.type = visible ? "password" : "text"; button.setAttribute("aria-label", visible ? "Show password" : "Hide password"); });
+      });
+    </script>
+  </body>
+</html>

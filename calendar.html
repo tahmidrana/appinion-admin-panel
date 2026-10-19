@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calendar · Appinion Admin</title>
+    <meta name="theme-color" content="#f3efe8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Apply saved / system theme before paint to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("hearth-theme");
+          var dark = t === "dark" || ((!t || t === "system") && matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+          if (localStorage.getItem("hearth-sb") === "1") document.documentElement.classList.add("sb-collapsed");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="dist/styles.css" />
+  </head>
+
+  <body class="min-h-screen">
+    <!-- ============ Icon sprite (Lucide-style, stroke icons) ============ -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="M3 10.5 12 3l9 7.5" />
+        <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" />
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="9" rx="1.5" />
+        <rect x="14" y="3" width="7" height="5" rx="1.5" />
+        <rect x="14" y="12" width="7" height="9" rx="1.5" />
+        <rect x="3" y="16" width="7" height="5" rx="1.5" />
+      </symbol>
+      <symbol id="i-user-plus" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="4" />
+        <path d="M2 21a7 7 0 0 1 14 0" />
+        <path d="M19 8v6M16 11h6" />
+      </symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" /></symbol>
+      <symbol id="i-files" viewBox="0 0 24 24">
+        <path d="M15 3H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7Z" />
+        <path d="M15 3v4h4M3 7v12a2 2 0 0 0 2 2h9" />
+      </symbol>
+      <symbol id="i-check-square" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <path d="m8 12 3 3 5-6" />
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="17" rx="2.5" />
+        <path d="M8 2v4M16 2v4M3 10h18" />
+      </symbol>
+      <symbol id="i-kanban" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <path d="M8 7v7M12 7v10M16 7v4" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M3 3v18h18" />
+        <path d="M8 17v-5M13 17V8M18 17v-8" />
+      </symbol>
+      <symbol id="i-report" viewBox="0 0 24 24">
+        <rect x="4" y="3" width="16" height="18" rx="2.5" />
+        <path d="M8 17v-4M12 17V8M16 17v-6" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"
+        />
+      </symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24">
+        <path d="M9 2v6M15 2v6" />
+        <path d="M6 8h12v4a6 6 0 0 1-12 0Z" />
+        <path d="M12 18v4" />
+      </symbol>
+      <symbol id="i-help" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m21 21-4.3-4.3" />
+      </symbol>
+      <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol>
+      <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+      <symbol id="i-updown" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5M7 9l5-5 5 5" /></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </symbol>
+      <symbol id="i-history" viewBox="0 0 24 24">
+        <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+        <path d="M3 3v5h5M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+        <path d="M10.3 21a1.9 1.9 0 0 0 3.4 0" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" /></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" />
+        <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" />
+      </symbol>
+      <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4h13l-2 4 2 4H4" /></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24">
+        <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z" />
+        <path d="M19 17v4M17 19h4" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"
+        />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <path d="m3 7 9 6 9-6" />
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="3.5" />
+        <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+        <path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6" />
+      </symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="m8 12 3 3 5-6" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5M12 8h.01" />
+      </symbol>
+      <symbol id="i-building" viewBox="0 0 24 24">
+        <path d="M3 21h18M5 21V8l7-5 7 5v13" />
+        <path d="M9 21v-6h6v6M9 11h.01M15 11h.01" />
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24">
+        <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0Z" />
+        <path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3" />
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24">
+        <rect x="4" y="11" width="16" height="10" rx="2.5" />
+        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+      </symbol>
+      <symbol id="i-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="6" rx="8" ry="3" />
+        <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+      </symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M4 19h16" /></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4l2-2M20 20v-5h-5" /></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" /></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24">
+        <circle cx="8" cy="15" r="4" />
+        <path d="m11 12 9-9M16 7l3 3" />
+      </symbol>
+      <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="12" rx="2" />
+        <path d="M8 20h8M12 16v4" />
+      </symbol>
+      <symbol id="i-phone-device" viewBox="0 0 24 24">
+        <rect x="7" y="2" width="10" height="20" rx="2.5" />
+        <path d="M11 18h2" />
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7" /></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24">
+        <path d="M12 3 2 20h20Z" />
+        <path d="M12 10v4M12 17h.01" />
+      </symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24">
+        <path d="M12 22a7 7 0 0 0 7-7c0-4-3-6-4-10-3 2-4 5-4 7-1-1-2-2-2-4-2 2-4 5-4 8a7 7 0 0 0 7 6Z" />
+      </symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" /></symbol>
+      <symbol id="i-command" viewBox="0 0 24 24"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9Z" /></symbol>
+      <symbol id="i-dots" viewBox="0 0 24 24">
+        <circle cx="5" cy="12" r="1.2" />
+        <circle cx="12" cy="12" r="1.2" />
+        <circle cx="19" cy="12" r="1.2" />
+      </symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7" /></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4-2v-4Z" /></symbol>
+      <symbol id="i-percent" viewBox="0 0 24 24">
+        <path d="M19 5 5 19" />
+        <circle cx="7" cy="7" r="2.5" />
+        <circle cx="17" cy="17" r="2.5" />
+      </symbol>
+      <symbol id="i-dollar" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6" /></symbol>
+      <symbol id="i-hourglass" viewBox="0 0 24 24">
+        <path d="M6 2h12M6 22h12M7 2v4a5 5 0 0 0 2 4l3 2-3 2a5 5 0 0 0-2 4v4M17 2v4a5 5 0 0 1-2 4l-3 2 3 2a5 5 0 0 1 2 4v4" />
+      </symbol>
+      <symbol id="i-trending" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6" /></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-briefcase" viewBox="0 0 24 24">
+        <rect x="3" y="7" width="18" height="13" rx="2.5" />
+        <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
+      </symbol>
+      <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+    </svg>
+
+    <!-- Mobile overlay -->
+    <div id="overlay" class="fixed inset-0 z-40 hidden bg-black/50 backdrop-blur-sm lg:hidden" aria-hidden="true"></div>
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside
+      id="sidebar"
+      class="fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col bg-side text-side-fg shadow-pop transition-[transform,width] duration-300 lg:w-[var(--sbw)] lg:translate-x-0 lg:shadow-none"
+      aria-label="Primary"
+    >
+      <!-- Brand -->
+      <div class="flex items-center gap-3 px-4 pb-3 pt-4">
+        <a href="#" class="flex min-w-0 items-center gap-3">
+          <span
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-white shadow-ember"
+            style="background-image: linear-gradient(160deg, #f07445, #d94d24)"
+          >
+            <svg class="i h-5 w-5"><use href="#i-home" /></svg>
+          </span>
+          <span class="sb-label min-w-0 leading-tight">
+            <span class="block font-display text-[1.0625rem] font-bold tracking-tight text-white">Appinion Admin</span>
+            <span class="block truncate text-xs text-side-fg/55">Lending CRM</span>
+          </span>
+        </a>
+        <button
+          id="sbToggle"
+          type="button"
+          aria-label="Collapse sidebar"
+          class="sb-label ml-auto hidden h-8 w-8 place-items-center rounded-lg border border-white/10 text-side-fg/70 transition hover:bg-white/5 lg:grid"
+        >
+          <svg class="i h-3.5 w-3.5"><use href="#i-chev-left" /></svg>
+        </button>
+        <button
+          id="sbClose"
+          type="button"
+          aria-label="Close menu"
+          class="ml-auto grid h-8 w-8 place-items-center rounded-lg border border-white/10 text-side-fg/70 lg:hidden"
+        >
+          <svg class="i"><use href="#i-x" /></svg>
+        </button>
+      </div>
+
+      <!-- Search -->
+      <div class="px-3">
+        <label
+          class="sb-search flex h-10 cursor-text items-center gap-2.5 rounded-[0.625rem] border border-white/10 bg-white/[.04] px-3 text-sm text-side-fg/60 focus-within:border-ember"
+        >
+          <svg class="i"><use href="#i-search" /></svg>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search"
+            class="sb-label min-w-0 flex-1 bg-transparent text-side-fg outline-none placeholder:text-side-fg/55"
+          />
+          <kbd class="sb-label rounded-md border border-white/10 px-1.5 py-0.5 text-[0.625rem] font-bold text-side-fg/50">⌘K</kbd>
+        </label>
+      </div>
+
+      <!-- Nav -->
+      <nav class="mt-1 flex-1 overflow-y-auto px-3 pb-3">
+        <p class="nav-head">Main menu</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="index.html" class="nav-link"
+              ><svg class="i"><use href="#i-grid" /></svg><span class="sb-label">Dashboard</span></a
+            >
+          </li>
+          <li>
+            <a href="leads.html" class="nav-link"
+              ><svg class="i"><use href="#i-user-plus" /></svg><span class="sb-label">Leads</span><span class="nav-count hot">12</span></a
+            >
+          </li>
+          <li>
+            <a href="applications.html" class="nav-link"
+              ><svg class="i"><use href="#i-files" /></svg><span class="sb-label">Applications</span></a
+            >
+          </li>
+          <li>
+            <a href="documents.html" class="nav-link"
+              ><svg class="i"><use href="#i-folder" /></svg><span class="sb-label">Documents</span><span class="nav-count">17</span></a
+            >
+          </li>
+          <li>
+            <a href="#/tasks" class="nav-link"
+              ><svg class="i"><use href="#i-check-square" /></svg><span class="sb-label">Tasks</span><span class="nav-count">7</span></a
+            >
+          </li>
+          <li>
+            <a href="calendar.html" class="nav-link active" aria-current="page"
+              ><svg class="i"><use href="#i-calendar" /></svg><span class="sb-label">Calendar</span></a
+            >
+          </li>
+          <li>
+            <a href="pipeline.html" class="nav-link"
+              ><svg class="i"><use href="#i-kanban" /></svg><span class="sb-label">Pipeline</span></a
+            >
+          </li>
+        </ul>
+
+        <p class="nav-head">Report</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="analytics.html" class="nav-link"
+              ><svg class="i"><use href="#i-chart" /></svg><span class="sb-label">Analytics</span></a
+            >
+          </li>
+          <li>
+            <a href="#/reports" class="nav-link"
+              ><svg class="i"><use href="#i-report" /></svg><span class="sb-label">Reports</span></a
+            >
+          </li>
+          <li>
+            <a href="audit-log.html" class="nav-link"
+              ><svg class="i"><use href="#i-history" /></svg><span class="sb-label">Audit log</span></a
+            >
+          </li>
+        </ul>
+
+        <p class="nav-head">Settings</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="settings.html" class="nav-link"
+              ><svg class="i"><use href="#i-settings" /></svg><span class="sb-label">Settings</span></a
+            >
+          </li>
+          <li>
+            <a href="#/integrations" class="nav-link"
+              ><svg class="i"><use href="#i-plug" /></svg><span class="sb-label">Integrations</span></a
+            >
+          </li>
+          <li>
+            <a href="#/help" class="nav-link"
+              ><svg class="i"><use href="#i-help" /></svg><span class="sb-label">Help &amp; Support</span></a
+            >
+          </li>
+          <li>
+            <a href="components.html" class="nav-link"
+              ><svg class="i"><use href="#i-grid" /></svg><span class="sb-label">Components</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Goal mini card -->
+      <div
+        class="sb-goal mx-3 mb-3 rounded-xl border border-white/10 p-3"
+        style="background-image: linear-gradient(135deg, rgb(225 90 51/0.18), rgb(122 114 230/0.14))"
+      >
+        <div class="flex items-center justify-between text-xs font-semibold text-side-fg/80">
+          <span>Monthly goal</span><span class="font-extrabold text-white">59%</span>
+        </div>
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full w-[59%] rounded-full bg-gradient-to-r from-ember to-[#f39a7b]"></div>
+        </div>
+        <p class="mt-2 text-[0.6875rem] text-side-fg/55">$2.94M of $5M funded</p>
+      </div>
+
+      <!-- User -->
+      <div class="relative mx-3 mb-3">
+      <div id="userMenu" role="menu" hidden class="absolute bottom-full left-0 z-10 mb-2 w-60 origin-bottom rounded-2xl border border-line bg-float p-2 text-fg shadow-pop">
+        <a role="menuitem" href="settings.html" class="menu-item"><svg class="i"><use href="#i-settings" /></svg>Profile &amp; settings</a>
+        <button type="button" role="menuitem" id="shortcutsBtn" class="menu-item"><svg class="i"><use href="#i-command" /></svg>Keyboard shortcuts</button>
+        <a role="menuitem" href="#/help" class="menu-item"><svg class="i"><use href="#i-help" /></svg>Help &amp; Support</a>
+        <hr class="my-1.5 border-line" />
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="light" class="menu-item"><svg class="i"><use href="#i-sun" /></svg>Light<svg class="i tick"><use href="#i-check" /></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="dark" class="menu-item"><svg class="i"><use href="#i-moon" /></svg>Dark<svg class="i tick"><use href="#i-check" /></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="system" class="menu-item"><svg class="i"><use href="#i-phone-device" /></svg>Match system<svg class="i tick"><use href="#i-check" /></svg></button>
+        <hr class="my-1.5 border-line" />
+        <button type="button" role="menuitem" id="resetBtn" class="menu-item !text-ember-t"><svg class="i !text-ember-t"><use href="#i-refresh" /></svg>Reset demo data</button>
+        <button type="button" role="menuitem" id="logoutBtn" class="menu-item !text-ember-t"><svg class="i !text-ember-t"><use href="#i-log-out" /></svg>Log out</button>
+      </div>
+      <button type="button" id="userBtn" aria-haspopup="menu" aria-expanded="false" class="sb-user flex w-full items-center gap-3 rounded-xl border border-white/10 p-2 text-left transition hover:bg-white/5"
+      >
+        <img class="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-white/15" src="https://i.pravatar.cc/80?img=47" alt="" />
+        <span class="sb-label min-w-0 flex-1 leading-tight">
+          <span class="block truncate text-[0.8125rem] font-bold text-white">Elena Marquez</span>
+          <span class="block truncate text-[0.6875rem] text-side-fg/55">Senior Loan Officer</span>
+        </span>
+        <svg class="i sb-label h-3.5 w-3.5 text-side-fg/50"><use href="#i-updown" /></svg>
+      </button>
+    </div>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <div class="transition-[padding] duration-300 lg:pl-[var(--sbw)]">
+      <!-- Topbar -->
+      <header
+        class="sticky top-0 z-30 flex h-[4.25rem] items-center gap-3 px-4 backdrop-blur-md sm:px-6 lg:px-8"
+        style="background: color-mix(in srgb, var(--bg) 70%, transparent)"
+      >
+        <button id="menuBtn" type="button" class="icon-btn lg:hidden" aria-label="Open menu">
+          <svg class="i"><use href="#i-menu" /></svg>
+        </button>
+        <button id="sbExpand" type="button" class="icon-btn hidden" aria-label="Expand sidebar">
+          <svg class="i"><use href="#i-chev-right" /></svg>
+        </button>
+
+        <nav class="flex min-w-0 items-center gap-2 text-sm" aria-label="Breadcrumb">
+          <span class="hidden text-muted sm:inline">Appinion Admin</span>
+          <svg class="i hidden h-3 w-3 text-faint sm:block"><use href="#i-chev-right" /></svg>
+          <span class="truncate font-bold">Calendar</span>
+          <span class="pill ml-1 hidden bg-spruce-soft text-spruce-t md:inline-flex">
+            <span class="h-1.5 w-1.5 rounded-full bg-spruce"></span>Synced just now
+          </span>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-2">
+          <button id="themeBtn" type="button" class="icon-btn" aria-label="Toggle dark mode">
+            <svg class="i dark:hidden"><use href="#i-moon" /></svg>
+            <svg class="i hidden dark:block"><use href="#i-sun" /></svg>
+          </button>
+          <button type="button" class="icon-btn hidden sm:grid" aria-label="Recent activity">
+            <svg class="i"><use href="#i-history" /></svg>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Notifications">
+            <svg class="i"><use href="#i-bell" /></svg>
+            <span class="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-float bg-ember"></span>
+          </button>
+          <button type="button" class="btn btn-ember">
+            <svg class="i"><use href="#i-plus" /></svg>New
+          </button>
+        </div>
+      </header>
+
+      <main id="page" class="space-y-4 px-4 pb-10 pt-0 sm:px-6 lg:px-8">
+        <section class="flex flex-col gap-4 pb-1 pt-0 lg:flex-row lg:items-end lg:justify-between">
+          <div class="min-w-0">
+            <h1 class="font-display text-[2rem] font-bold leading-tight tracking-[-0.03em] sm:text-[2.375rem]">Calendar</h1>
+            <p class="mt-1 text-sm text-muted">Closings, consultations and calls in one place. Drag an event in the week to move it.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <div class="seg" id="views" role="group" aria-label="View">
+              <button type="button" aria-pressed="true">Month</button><button type="button" aria-pressed="false">Week</button
+              ><button type="button" aria-pressed="false">Agenda</button>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" id="prev" class="icon-btn" aria-label="Previous">
+                <svg class="i"><use href="#i-chev-left"></use></svg>
+              </button>
+              <button type="button" id="today" class="btn text-ember-t">Today</button>
+              <button type="button" id="next" class="icon-btn" aria-label="Next">
+                <svg class="i"><use href="#i-chev-right"></use></svg>
+              </button>
+            </div>
+            <button type="button" id="newEv" class="btn btn-ember px-4">
+              <svg class="i"><use href="#i-plus"></use></svg>New event
+            </button>
+          </div>
+        </section>
+        <div class="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_21rem]">
+          <section class="card p-4 sm:p-5" id="main">
+            <header class="mb-4 flex flex-wrap items-center gap-3">
+              <h2 class="font-display text-xl font-bold tracking-tight">October 2026</h2>
+              <div id="legend" class="ml-auto flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  aria-pressed="true"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-line bg-float px-2.5 py-1 text-xs font-bold transition"
+                >
+                  <span class="h-2 w-2 rounded-full bg-ember"></span>Closings<span class="font-semibold text-muted">9</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed="true"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-line bg-float px-2.5 py-1 text-xs font-bold transition"
+                >
+                  <span class="h-2 w-2 rounded-full bg-iris"></span>Meetings<span class="font-semibold text-muted">6</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed="true"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-line bg-float px-2.5 py-1 text-xs font-bold transition"
+                >
+                  <span class="h-2 w-2 rounded-full bg-spruce"></span>Calls<span class="font-semibold text-muted">10</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed="true"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-line bg-float px-2.5 py-1 text-xs font-bold transition"
+                >
+                  <span class="h-2 w-2 rounded-full bg-saffron"></span>Tasks<span class="font-semibold text-muted">8</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed="true"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-line bg-float px-2.5 py-1 text-xs font-bold transition"
+                >
+                  <span class="h-2 w-2 rounded-full bg-faint"></span>Emails<span class="font-semibold text-muted">8</span>
+                </button>
+              </div>
+            </header>
+            <div class="overflow-x-auto">
+              <div class="min-w-[44rem]">
+                <div class="grid grid-cols-7 gap-1.5 pb-1.5 text-xs font-semibold text-muted">
+                  <div class="px-1.5">Mon</div>
+                  <div class="px-1.5">Tue</div>
+                  <div class="px-1.5">Wed</div>
+                  <div class="px-1.5">Thu</div>
+                  <div class="px-1.5">Fri</div>
+                  <div class="px-1.5">Sat</div>
+                  <div class="px-1.5">Sun</div>
+                </div>
+                <div class="grid grid-cols-7 gap-1.5">
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">28</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">29</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">30</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">1</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">2</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">3</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">4</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">5</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">6</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">7</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">8</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">9</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">10</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">11</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">12</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">13</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">14</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">15</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">16</span>
+                    <button
+                      type="button"
+                      title="9:30 AM · Call to review rate lock options"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-spruce-soft text-spruce-t line-through opacity-60"
+                    >
+                      <span class="shrink-0 opacity-70">9:30a</span><span class="truncate">Call to review rate lock options</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">17</span>
+                    <button
+                      type="button"
+                      title="12:00 PM · Send the disclosure package"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-well text-muted line-through opacity-60"
+                    >
+                      <span class="shrink-0 opacity-70">12p</span><span class="truncate">Send the disclosure package</span></button
+                    ><button
+                      type="button"
+                      title="3:30 PM · Order the appraisal"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-saffron-soft text-saffron-t line-through opacity-60"
+                    >
+                      <span class="shrink-0 opacity-70">3:30p</span><span class="truncate">Order the appraisal</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-2 border-ink bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold bg-ember text-white">18</span>
+                    <button
+                      type="button"
+                      title="1:00 PM · Closing — Sarah Reyes"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">1p</span><span class="truncate">Closing — Sarah Reyes</span></button
+                    ><button
+                      type="button"
+                      title="2:00 PM · Closing — Gavin Hughes"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">2p</span><span class="truncate">Closing — Gavin Hughes</span>
+                    </button>
+                    <button type="button" class="px-1 text-left text-[0.6875rem] font-semibold text-muted hover:text-fg">+8 more</button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">19</span>
+                    <button
+                      type="button"
+                      title="9:00 AM · Pipeline review with Grace"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-iris-soft text-iris-t"
+                    >
+                      <span class="shrink-0 opacity-70">9a</span><span class="truncate">Pipeline review with Grace</span></button
+                    ><button
+                      type="button"
+                      title="9:30 AM · Check in with the listing agent"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-spruce-soft text-spruce-t"
+                    >
+                      <span class="shrink-0 opacity-70">9:30a</span><span class="truncate">Check in with the listing agent</span>
+                    </button>
+                    <button type="button" class="px-1 text-left text-[0.6875rem] font-semibold text-muted hover:text-fg">+3 more</button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">20</span>
+                    <button
+                      type="button"
+                      title="10:00 AM · Send the disclosure package"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-well text-muted"
+                    >
+                      <span class="shrink-0 opacity-70">10a</span><span class="truncate">Send the disclosure package</span></button
+                    ><button
+                      type="button"
+                      title="12:00 PM · Send pre-qualification checklist"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-well text-muted"
+                    >
+                      <span class="shrink-0 opacity-70">12p</span><span class="truncate">Send pre-qualification checklist</span>
+                    </button>
+                    <button type="button" class="px-1 text-left text-[0.6875rem] font-semibold text-muted hover:text-fg">+2 more</button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">21</span>
+                    <button
+                      type="button"
+                      title="3:00 PM · Closing — Simon Wallace"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">3p</span><span class="truncate">Closing — Simon Wallace</span></button
+                    ><button
+                      type="button"
+                      title="12:00 PM · Realtor lunch — Keller Group"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-iris-soft text-iris-t"
+                    >
+                      <span class="shrink-0 opacity-70">12p</span><span class="truncate">Realtor lunch — Keller Group</span></button
+                    ><button
+                      type="button"
+                      title="1:00 PM · Order the appraisal"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-saffron-soft text-saffron-t"
+                    >
+                      <span class="shrink-0 opacity-70">1p</span><span class="truncate">Order the appraisal</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">22</span>
+                    <button
+                      type="button"
+                      title="2:00 PM · Closing — Jason Morales"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">2p</span><span class="truncate">Closing — Jason Morales</span></button
+                    ><button
+                      type="button"
+                      title="4:30 PM · Walk through the Closing Disclosure"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-spruce-soft text-spruce-t"
+                    >
+                      <span class="shrink-0 opacity-70">4:30p</span><span class="truncate">Walk through the Closing Disclosure</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">23</span>
+                    <button
+                      type="button"
+                      title="10:00 AM · Closing — David Jenkins"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">10a</span><span class="truncate">Closing — David Jenkins</span></button
+                    ><button
+                      type="button"
+                      title="11:30 AM · Request updated bank statements"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-saffron-soft text-saffron-t"
+                    >
+                      <span class="shrink-0 opacity-70">11:30a</span><span class="truncate">Request updated bank statements</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">24</span>
+                    <button
+                      type="button"
+                      title="2:00 PM · Closing — Brian Morales"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">2p</span><span class="truncate">Closing — Brian Morales</span></button
+                    ><button
+                      type="button"
+                      title="3:00 PM · Closing — Hector Jordan"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">3p</span><span class="truncate">Closing — Hector Jordan</span>
+                    </button>
+                    <button type="button" class="px-1 text-left text-[0.6875rem] font-semibold text-muted hover:text-fg">+2 more</button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">25</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">26</span>
+                    <button
+                      type="button"
+                      title="9:30 AM · Pre-approval consultation"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-iris-soft text-iris-t"
+                    >
+                      <span class="shrink-0 opacity-70">9:30a</span><span class="truncate">Pre-approval consultation</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">27</span>
+                    <button
+                      type="button"
+                      title="12:00 PM · Re-run credit before expiry"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-saffron-soft text-saffron-t"
+                    >
+                      <span class="shrink-0 opacity-70">12p</span><span class="truncate">Re-run credit before expiry</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">28</span>
+                    <button
+                      type="button"
+                      title="11:00 AM · Closing — Robert Hayes"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">11a</span><span class="truncate">Closing — Robert Hayes</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">29</span>
+                    <button
+                      type="button"
+                      title="10:00 AM · Closing — Hector Foster"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-ember text-white"
+                    >
+                      <span class="shrink-0 opacity-70">10a</span><span class="truncate">Closing — Hector Foster</span></button
+                    ><button
+                      type="button"
+                      title="3:30 PM · Check in with the listing agent"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-spruce-soft text-spruce-t"
+                    >
+                      <span class="shrink-0 opacity-70">3:30p</span><span class="truncate">Check in with the listing agent</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">30</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-line bg-surface2">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-muted">31</span>
+                    <button
+                      type="button"
+                      title="10:00 AM · Clear underwriting conditions"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-saffron-soft text-saffron-t"
+                    >
+                      <span class="shrink-0 opacity-70">10a</span><span class="truncate">Clear underwriting conditions</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">1</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">2</span>
+                    <button
+                      type="button"
+                      title="1:30 PM · Call to review rate lock options"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-spruce-soft text-spruce-t"
+                    >
+                      <span class="shrink-0 opacity-70">1:30p</span><span class="truncate">Call to review rate lock options</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">3</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">4</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">5</span>
+                    <button
+                      type="button"
+                      title="4:30 PM · Send the disclosure package"
+                      class="flex w-full items-center gap-1 rounded-md px-1.5 py-0.5 text-left text-[0.6875rem] font-semibold bg-well text-muted"
+                    >
+                      <span class="shrink-0 opacity-70">4:30p</span><span class="truncate">Send the disclosure package</span>
+                    </button>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">6</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">7</span>
+                  </div>
+                  <div class="flex min-h-[5.75rem] flex-col gap-1 rounded-xl border p-1.5 border-dashed border-line bg-transparent">
+                    <span class="grid h-6 w-6 place-items-center rounded-full text-xs font-bold text-faint">8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div class="space-y-4" id="side">
+            <section class="card p-4">
+              <header class="mb-3 flex items-center">
+                <h3 class="text-[0.9375rem] font-bold">October 2026</h3>
+                <div class="ml-auto flex gap-1">
+                  <button type="button" class="grid h-7 w-7 place-items-center rounded-lg text-muted hover:bg-well" aria-label="Previous month">
+                    <svg class="i h-3.5 w-3.5"><use href="#i-chev-left"></use></svg></button
+                  ><button type="button" class="grid h-7 w-7 place-items-center rounded-lg text-muted hover:bg-well" aria-label="Next month">
+                    <svg class="i h-3.5 w-3.5"><use href="#i-chev-right"></use></svg>
+                  </button>
+                </div>
+              </header>
+              <div class="grid grid-cols-7 gap-y-1 text-center">
+                <div class="contents text-[0.6875rem] font-semibold text-muted">
+                  <span class="pb-1">M</span><span class="pb-1">T</span><span class="pb-1">W</span><span class="pb-1">T</span
+                  ><span class="pb-1">F</span><span class="pb-1">S</span><span class="pb-1">S</span>
+                </div>
+                <button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  28</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  29</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  30</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  1</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  2</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  3</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  4</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  5</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  6</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  7</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  8</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  9</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  10</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  11</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  12</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  13</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  14</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  15</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  16<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  17<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well !bg-ink text-on-ink"
+                >
+                  18<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-ember"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  19<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  20<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  21<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  22<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  23<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  24<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  25</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  26<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  27<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  28<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  29<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  30</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-fg"
+                >
+                  31<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  1</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  2<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  3</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  4</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  5<span class="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris"></span></button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  6</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  7</button
+                ><button
+                  type="button"
+                  class="relative mx-auto grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold transition hover:bg-well text-faint"
+                >
+                  8
+                </button>
+              </div>
+            </section>
+            <section class="card p-4">
+              <header class="mb-2 flex items-center">
+                <h3 class="text-[0.9375rem] font-bold">Upcoming closings</h3>
+                <a href="pipeline.html" class="link-ember ml-auto">Pipeline</a>
+              </header>
+              <ul class="divide-y divide-line">
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="avatar h-9 w-9 bg-spruce-soft text-spruce-t text-xs">SR</span>
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-bold">Sarah Reyes</p>
+                    <p class="text-xs text-muted">Sun, Oct 18 · $850K</p>
+                  </div>
+                  <span class="pill bg-ember-soft px-2.5 text-ember-t">Today</span>
+                </li>
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="avatar h-9 w-9 bg-ember-soft text-ember-t text-xs">GH</span>
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-bold">Gavin Hughes</p>
+                    <p class="text-xs text-muted">Sun, Oct 18 · $260K</p>
+                  </div>
+                  <span class="pill bg-ember-soft px-2.5 text-ember-t">Today</span>
+                </li>
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="avatar h-9 w-9 bg-spruce-soft text-spruce-t text-xs">SW</span>
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-bold">Simon Wallace</p>
+                    <p class="text-xs text-muted">Wed, Oct 21 · $330K</p>
+                  </div>
+                  <span
+                    class="grid h-10 w-12 place-items-center rounded-xl bg-surface2 text-center text-[0.6875rem] font-semibold leading-tight text-muted"
+                    ><span><b class="block text-sm text-fg">3</b>days</span></span
+                  >
+                </li>
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="avatar h-9 w-9 bg-iris-soft text-iris-t text-xs">JM</span>
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-bold">Jason Morales</p>
+                    <p class="text-xs text-muted">Thu, Oct 22 · $560K</p>
+                  </div>
+                  <span
+                    class="grid h-10 w-12 place-items-center rounded-xl bg-surface2 text-center text-[0.6875rem] font-semibold leading-tight text-muted"
+                    ><span><b class="block text-sm text-fg">4</b>days</span></span
+                  >
+                </li>
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="avatar h-9 w-9 bg-saffron-soft text-saffron-t text-xs">DJ</span>
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-bold">David Jenkins</p>
+                    <p class="text-xs text-muted">Fri, Oct 23 · $500K</p>
+                  </div>
+                  <span
+                    class="grid h-10 w-12 place-items-center rounded-xl bg-surface2 text-center text-[0.6875rem] font-semibold leading-tight text-muted"
+                    ><span><b class="block text-sm text-fg">5</b>days</span></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="card p-4">
+              <header class="mb-3 flex items-baseline justify-between">
+                <h3 class="text-[0.9375rem] font-bold">Today</h3>
+                <span class="text-xs text-muted">Sun, Oct 18</span>
+              </header>
+              <dl class="grid grid-cols-3 gap-2 text-center">
+                <div class="rounded-xl bg-surface2 py-2.5">
+                  <dd class="font-display text-lg font-bold">10</dd>
+                  <dt class="text-[0.6875rem] text-muted">Events</dt>
+                </div>
+                <div class="rounded-xl bg-surface2 py-2.5">
+                  <dd class="font-display text-lg font-bold">2</dd>
+                  <dt class="text-[0.6875rem] text-muted">Closings</dt>
+                </div>
+                <div class="rounded-xl bg-surface2 py-2.5">
+                  <dd class="font-display text-lg font-bold">2</dd>
+                  <dt class="text-[0.6875rem] text-muted">Calls</dt>
+                </div>
+              </dl>
+              <p class="mt-3 rounded-xl border border-line px-3 py-2.5 text-xs text-muted">
+                Next up · 9:00 AM<b class="mt-0.5 block text-sm text-fg">Team stand-up</b>
+              </p>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+      <dialog id="shortcutsDlg" class="w-[min(24rem,calc(100vw-2rem))] rounded-2xl border border-line bg-surface p-0 text-fg shadow-pop backdrop:bg-black/50">
+    <form method="dialog" class="p-5">
+      <h2 class="font-display text-lg font-bold tracking-tight">Keyboard shortcuts</h2>
+      <dl class="mt-3 divide-y divide-line text-sm">
+        <div class="flex items-center justify-between py-2.5"><dt class="text-muted">Focus search</dt><dd><kbd class="rounded-md border border-line px-1.5 py-0.5 text-xs font-bold">Ctrl / ⌘ + K</kbd></dd></div>
+        <div class="flex items-center justify-between py-2.5"><dt class="text-muted">Close menus and dialogs</dt><dd><kbd class="rounded-md border border-line px-1.5 py-0.5 text-xs font-bold">Esc</kbd></dd></div>
+      </dl>
+      <div class="mt-4 flex justify-end"><button class="btn">Close</button></div>
+    </form>
+  </dialog>
+
+  <script src="src/app.js" defer></script>
+  </body>
+</html>

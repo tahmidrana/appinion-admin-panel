@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analytics · Appinion Admin</title>
+    <meta name="theme-color" content="#f3efe8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Apply saved / system theme before paint to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("hearth-theme");
+          var dark = t === "dark" || ((!t || t === "system") && matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+          if (localStorage.getItem("hearth-sb") === "1") document.documentElement.classList.add("sb-collapsed");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="dist/styles.css" />
+  </head>
+
+  <body class="min-h-screen">
+    <!-- ============ Icon sprite (Lucide-style, stroke icons) ============ -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="M3 10.5 12 3l9 7.5" />
+        <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" />
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="9" rx="1.5" />
+        <rect x="14" y="3" width="7" height="5" rx="1.5" />
+        <rect x="14" y="12" width="7" height="9" rx="1.5" />
+        <rect x="3" y="16" width="7" height="5" rx="1.5" />
+      </symbol>
+      <symbol id="i-user-plus" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="4" />
+        <path d="M2 21a7 7 0 0 1 14 0" />
+        <path d="M19 8v6M16 11h6" />
+      </symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" /></symbol>
+      <symbol id="i-files" viewBox="0 0 24 24">
+        <path d="M15 3H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7Z" />
+        <path d="M15 3v4h4M3 7v12a2 2 0 0 0 2 2h9" />
+      </symbol>
+      <symbol id="i-check-square" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <path d="m8 12 3 3 5-6" />
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="17" rx="2.5" />
+        <path d="M8 2v4M16 2v4M3 10h18" />
+      </symbol>
+      <symbol id="i-kanban" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <path d="M8 7v7M12 7v10M16 7v4" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M3 3v18h18" />
+        <path d="M8 17v-5M13 17V8M18 17v-8" />
+      </symbol>
+      <symbol id="i-report" viewBox="0 0 24 24">
+        <rect x="4" y="3" width="16" height="18" rx="2.5" />
+        <path d="M8 17v-4M12 17V8M16 17v-6" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"
+        />
+      </symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24">
+        <path d="M9 2v6M15 2v6" />
+        <path d="M6 8h12v4a6 6 0 0 1-12 0Z" />
+        <path d="M12 18v4" />
+      </symbol>
+      <symbol id="i-help" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m21 21-4.3-4.3" />
+      </symbol>
+      <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol>
+      <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+      <symbol id="i-updown" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5M7 9l5-5 5 5" /></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </symbol>
+      <symbol id="i-history" viewBox="0 0 24 24">
+        <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+        <path d="M3 3v5h5M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+        <path d="M10.3 21a1.9 1.9 0 0 0 3.4 0" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" /></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" />
+        <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" />
+      </symbol>
+      <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4h13l-2 4 2 4H4" /></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24">
+        <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z" />
+        <path d="M19 17v4M17 19h4" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"
+        />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <path d="m3 7 9 6 9-6" />
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="3.5" />
+        <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+        <path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6" />
+      </symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="m8 12 3 3 5-6" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5M12 8h.01" />
+      </symbol>
+      <symbol id="i-building" viewBox="0 0 24 24">
+        <path d="M3 21h18M5 21V8l7-5 7 5v13" />
+        <path d="M9 21v-6h6v6M9 11h.01M15 11h.01" />
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24">
+        <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0Z" />
+        <path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3" />
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24">
+        <rect x="4" y="11" width="16" height="10" rx="2.5" />
+        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+      </symbol>
+      <symbol id="i-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="6" rx="8" ry="3" />
+        <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+      </symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M4 19h16" /></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4l2-2M20 20v-5h-5" /></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" /></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24">
+        <circle cx="8" cy="15" r="4" />
+        <path d="m11 12 9-9M16 7l3 3" />
+      </symbol>
+      <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="12" rx="2" />
+        <path d="M8 20h8M12 16v4" />
+      </symbol>
+      <symbol id="i-phone-device" viewBox="0 0 24 24">
+        <rect x="7" y="2" width="10" height="20" rx="2.5" />
+        <path d="M11 18h2" />
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7" /></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24">
+        <path d="M12 3 2 20h20Z" />
+        <path d="M12 10v4M12 17h.01" />
+      </symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24">
+        <path d="M12 22a7 7 0 0 0 7-7c0-4-3-6-4-10-3 2-4 5-4 7-1-1-2-2-2-4-2 2-4 5-4 8a7 7 0 0 0 7 6Z" />
+      </symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" /></symbol>
+      <symbol id="i-command" viewBox="0 0 24 24"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9Z" /></symbol>
+      <symbol id="i-dots" viewBox="0 0 24 24">
+        <circle cx="5" cy="12" r="1.2" />
+        <circle cx="12" cy="12" r="1.2" />
+        <circle cx="19" cy="12" r="1.2" />
+      </symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7" /></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4-2v-4Z" /></symbol>
+      <symbol id="i-percent" viewBox="0 0 24 24">
+        <path d="M19 5 5 19" />
+        <circle cx="7" cy="7" r="2.5" />
+        <circle cx="17" cy="17" r="2.5" />
+      </symbol>
+      <symbol id="i-dollar" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6" /></symbol>
+      <symbol id="i-hourglass" viewBox="0 0 24 24">
+        <path d="M6 2h12M6 22h12M7 2v4a5 5 0 0 0 2 4l3 2-3 2a5 5 0 0 0-2 4v4M17 2v4a5 5 0 0 1-2 4l-3 2 3 2a5 5 0 0 1 2 4v4" />
+      </symbol>
+      <symbol id="i-trending" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6" /></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-briefcase" viewBox="0 0 24 24">
+        <rect x="3" y="7" width="18" height="13" rx="2.5" />
+        <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
+      </symbol>
+      <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+    </svg>
+
+    <!-- Mobile overlay -->
+    <div id="overlay" class="fixed inset-0 z-40 hidden bg-black/50 backdrop-blur-sm lg:hidden" aria-hidden="true"></div>
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside
+      id="sidebar"
+      class="fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col bg-side text-side-fg shadow-pop transition-[transform,width] duration-300 lg:w-[var(--sbw)] lg:translate-x-0 lg:shadow-none"
+      aria-label="Primary"
+    >
+      <!-- Brand -->
+      <div class="flex items-center gap-3 px-4 pb-3 pt-4">
+        <a href="#" class="flex min-w-0 items-center gap-3">
+          <span
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-white shadow-ember"
+            style="background-image: linear-gradient(160deg, #f07445, #d94d24)"
+          >
+            <svg class="i h-5 w-5"><use href="#i-home" /></svg>
+          </span>
+          <span class="sb-label min-w-0 leading-tight">
+            <span class="block font-display text-[1.0625rem] font-bold tracking-tight text-white">Appinion Admin</span>
+            <span class="block truncate text-xs text-side-fg/55">Lending CRM</span>
+          </span>
+        </a>
+        <button
+          id="sbToggle"
+          type="button"
+          aria-label="Collapse sidebar"
+          class="sb-label ml-auto hidden h-8 w-8 place-items-center rounded-lg border border-white/10 text-side-fg/70 transition hover:bg-white/5 lg:grid"
+        >
+          <svg class="i h-3.5 w-3.5"><use href="#i-chev-left" /></svg>
+        </button>
+        <button
+          id="sbClose"
+          type="button"
+          aria-label="Close menu"
+          class="ml-auto grid h-8 w-8 place-items-center rounded-lg border border-white/10 text-side-fg/70 lg:hidden"
+        >
+          <svg class="i"><use href="#i-x" /></svg>
+        </button>
+      </div>
+
+      <!-- Search -->
+      <div class="px-3">
+        <label
+          class="sb-search flex h-10 cursor-text items-center gap-2.5 rounded-[0.625rem] border border-white/10 bg-white/[.04] px-3 text-sm text-side-fg/60 focus-within:border-ember"
+        >
+          <svg class="i"><use href="#i-search" /></svg>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search"
+            class="sb-label min-w-0 flex-1 bg-transparent text-side-fg outline-none placeholder:text-side-fg/55"
+          />
+          <kbd class="sb-label rounded-md border border-white/10 px-1.5 py-0.5 text-[0.625rem] font-bold text-side-fg/50">⌘K</kbd>
+        </label>
+      </div>
+
+      <!-- Nav -->
+      <nav class="mt-1 flex-1 overflow-y-auto px-3 pb-3">
+        <p class="nav-head">Main menu</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="index.html" class="nav-link"
+              ><svg class="i"><use href="#i-grid" /></svg><span class="sb-label">Dashboard</span></a
+            >
+          </li>
+          <li>
+            <a href="leads.html" class="nav-link"
+              ><svg class="i"><use href="#i-user-plus" /></svg><span class="sb-label">Leads</span><span class="nav-count hot">12</span></a
+            >
+          </li>
+          <li>
+            <a href="applications.html" class="nav-link"
+              ><svg class="i"><use href="#i-files" /></svg><span class="sb-label">Applications</span></a
+            >
+          </li>
+          <li>
+            <a href="documents.html" class="nav-link"
+              ><svg class="i"><use href="#i-folder" /></svg><span class="sb-label">Documents</span><span class="nav-count">17</span></a
+            >
+          </li>
+          <li>
+            <a href="#/tasks" class="nav-link"
+              ><svg class="i"><use href="#i-check-square" /></svg><span class="sb-label">Tasks</span><span class="nav-count">7</span></a
+            >
+          </li>
+          <li>
+            <a href="calendar.html" class="nav-link"
+              ><svg class="i"><use href="#i-calendar" /></svg><span class="sb-label">Calendar</span></a
+            >
+          </li>
+          <li>
+            <a href="pipeline.html" class="nav-link"
+              ><svg class="i"><use href="#i-kanban" /></svg><span class="sb-label">Pipeline</span></a
+            >
+          </li>
+        </ul>
+
+        <p class="nav-head">Report</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="analytics.html" class="nav-link active" aria-current="page"
+              ><svg class="i"><use href="#i-chart" /></svg><span class="sb-label">Analytics</span></a
+            >
+          </li>
+          <li>
+            <a href="#/reports" class="nav-link"
+              ><svg class="i"><use href="#i-report" /></svg><span class="sb-label">Reports</span></a
+            >
+          </li>
+          <li>
+            <a href="audit-log.html" class="nav-link"
+              ><svg class="i"><use href="#i-history" /></svg><span class="sb-label">Audit log</span></a
+            >
+          </li>
+        </ul>
+
+        <p class="nav-head">Settings</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="settings.html" class="nav-link"
+              ><svg class="i"><use href="#i-settings" /></svg><span class="sb-label">Settings</span></a
+            >
+          </li>
+          <li>
+            <a href="#/integrations" class="nav-link"
+              ><svg class="i"><use href="#i-plug" /></svg><span class="sb-label">Integrations</span></a
+            >
+          </li>
+          <li>
+            <a href="#/help" class="nav-link"
+              ><svg class="i"><use href="#i-help" /></svg><span class="sb-label">Help &amp; Support</span></a
+            >
+          </li>
+          <li>
+            <a href="components.html" class="nav-link"
+              ><svg class="i"><use href="#i-grid" /></svg><span class="sb-label">Components</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Goal mini card -->
+      <div
+        class="sb-goal mx-3 mb-3 rounded-xl border border-white/10 p-3"
+        style="background-image: linear-gradient(135deg, rgb(225 90 51/0.18), rgb(122 114 230/0.14))"
+      >
+        <div class="flex items-center justify-between text-xs font-semibold text-side-fg/80">
+          <span>Monthly goal</span><span class="font-extrabold text-white">59%</span>
+        </div>
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full w-[59%] rounded-full bg-gradient-to-r from-ember to-[#f39a7b]"></div>
+        </div>
+        <p class="mt-2 text-[0.6875rem] text-side-fg/55">$2.94M of $5M funded</p>
+      </div>
+
+      <!-- User -->
+      <div class="relative mx-3 mb-3">
+      <div id="userMenu" role="menu" hidden class="absolute bottom-full left-0 z-10 mb-2 w-60 origin-bottom rounded-2xl border border-line bg-float p-2 text-fg shadow-pop">
+        <a role="menuitem" href="settings.html" class="menu-item"><svg class="i"><use href="#i-settings" /></svg>Profile &amp; settings</a>
+        <button type="button" role="menuitem" id="shortcutsBtn" class="menu-item"><svg class="i"><use href="#i-command" /></svg>Keyboard shortcuts</button>
+        <a role="menuitem" href="#/help" class="menu-item"><svg class="i"><use href="#i-help" /></svg>Help &amp; Support</a>
+        <hr class="my-1.5 border-line" />
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="light" class="menu-item"><svg class="i"><use href="#i-sun" /></svg>Light<svg class="i tick"><use href="#i-check" /></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="dark" class="menu-item"><svg class="i"><use href="#i-moon" /></svg>Dark<svg class="i tick"><use href="#i-check" /></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="system" class="menu-item"><svg class="i"><use href="#i-phone-device" /></svg>Match system<svg class="i tick"><use href="#i-check" /></svg></button>
+        <hr class="my-1.5 border-line" />
+        <button type="button" role="menuitem" id="resetBtn" class="menu-item !text-ember-t"><svg class="i !text-ember-t"><use href="#i-refresh" /></svg>Reset demo data</button>
+        <button type="button" role="menuitem" id="logoutBtn" class="menu-item !text-ember-t"><svg class="i !text-ember-t"><use href="#i-log-out" /></svg>Log out</button>
+      </div>
+      <button type="button" id="userBtn" aria-haspopup="menu" aria-expanded="false" class="sb-user flex w-full items-center gap-3 rounded-xl border border-white/10 p-2 text-left transition hover:bg-white/5"
+      >
+        <img class="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-white/15" src="https://i.pravatar.cc/80?img=47" alt="" />
+        <span class="sb-label min-w-0 flex-1 leading-tight">
+          <span class="block truncate text-[0.8125rem] font-bold text-white">Elena Marquez</span>
+          <span class="block truncate text-[0.6875rem] text-side-fg/55">Senior Loan Officer</span>
+        </span>
+        <svg class="i sb-label h-3.5 w-3.5 text-side-fg/50"><use href="#i-updown" /></svg>
+      </button>
+    </div>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <div class="transition-[padding] duration-300 lg:pl-[var(--sbw)]">
+      <!-- Topbar -->
+      <header
+        class="sticky top-0 z-30 flex h-[4.25rem] items-center gap-3 px-4 backdrop-blur-md sm:px-6 lg:px-8"
+        style="background: color-mix(in srgb, var(--bg) 70%, transparent)"
+      >
+        <button id="menuBtn" type="button" class="icon-btn lg:hidden" aria-label="Open menu">
+          <svg class="i"><use href="#i-menu" /></svg>
+        </button>
+        <button id="sbExpand" type="button" class="icon-btn hidden" aria-label="Expand sidebar">
+          <svg class="i"><use href="#i-chev-right" /></svg>
+        </button>
+
+        <nav class="flex min-w-0 items-center gap-2 text-sm" aria-label="Breadcrumb">
+          <span class="hidden text-muted sm:inline">Appinion Admin</span>
+          <svg class="i hidden h-3 w-3 text-faint sm:block"><use href="#i-chev-right" /></svg>
+          <span class="truncate font-bold">Analytics</span>
+          <span class="pill ml-1 hidden bg-spruce-soft text-spruce-t md:inline-flex">
+            <span class="h-1.5 w-1.5 rounded-full bg-spruce"></span>Synced just now
+          </span>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-2">
+          <button id="themeBtn" type="button" class="icon-btn" aria-label="Toggle dark mode">
+            <svg class="i dark:hidden"><use href="#i-moon" /></svg>
+            <svg class="i hidden dark:block"><use href="#i-sun" /></svg>
+          </button>
+          <button type="button" class="icon-btn hidden sm:grid" aria-label="Recent activity">
+            <svg class="i"><use href="#i-history" /></svg>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Notifications">
+            <svg class="i"><use href="#i-bell" /></svg>
+            <span class="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-float bg-ember"></span>
+          </button>
+          <button type="button" class="btn btn-ember">
+            <svg class="i"><use href="#i-plus" /></svg>New
+          </button>
+        </div>
+      </header>
+
+      <main id="page" class="space-y-4 px-4 pb-10 pt-0 sm:px-6 lg:px-8">
+        <section class="flex flex-col gap-4 pb-1 pt-0 lg:flex-row lg:items-end lg:justify-between">
+          <div class="min-w-0">
+            <h1 class="font-display text-[2rem] font-bold leading-tight tracking-[-0.03em] sm:text-[2.375rem]">Analytics</h1>
+            <p class="mt-1 text-sm text-muted">Production, pipeline health and where your best borrowers come from.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="flex items-center gap-2 text-xs text-muted"
+              ><svg class="i h-3.5 w-3.5"><use href="#i-calendar"></use></svg>Last update: <b class="text-fg">Oct 18, 2026</b
+              ><span class="grid h-4 w-4 place-items-center rounded-full bg-spruce text-white"
+                ><svg class="i h-2.5 w-2.5"><use href="#i-check"></use></svg></span
+            ></span>
+            <div class="seg" id="range" role="group" aria-label="Range">
+              <button type="button" aria-pressed="false">7D</button><button type="button" aria-pressed="true">30D</button
+              ><button type="button" aria-pressed="false">90D</button><button type="button" aria-pressed="false">12M</button>
+            </div>
+            <button type="button" id="export" class="btn">
+              <svg class="i"><use href="#i-download"></use></svg>Export data
+            </button>
+          </div>
+        </section>
+        <section id="kpis" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <article class="card">
+            <div class="flex items-start justify-between px-4 pt-4">
+              <span class="icon-chip bg-ember-soft text-ember-t"
+                ><svg class="i"><use href="#i-link"></use></svg></span
+              ><svg
+                viewBox="0 0 80 28"
+                class="h-7 w-20 text-ember"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M0.0,19.3 C1.2,18.4 4.8,15.0 7.3,14.3 C9.7,13.6 12.1,15.5 14.5,15.0 C17.0,14.5 19.4,11.5 21.8,11.5 C24.2,11.4 26.7,13.8 29.1,14.8 C31.5,15.8 33.9,17.3 36.4,17.5 C38.8,17.7 41.2,15.3 43.6,16.1 C46.1,16.9 48.5,21.6 50.9,22.0 C53.3,22.5 55.8,19.8 58.2,18.8 C60.6,17.8 63.0,16.4 65.5,15.9 C67.9,15.4 70.3,15.4 72.7,16.0 C75.2,16.7 78.8,19.1 80.0,19.7"
+                ></path>
+              </svg>
+            </div>
+            <div class="px-4 pb-4 pt-3">
+              <p class="text-[0.8125rem] text-muted">Total funded volume</p>
+              <p class="mt-1 font-display text-[1.625rem] font-bold tracking-tight">$4,920,000</p>
+            </div>
+            <div class="kpi-foot">
+              <span class="pill bg-spruce-soft text-spruce-t"
+                ><svg class="i h-3 w-3"><use href="#i-arrow-up"></use></svg>6.6%</span
+              ><span>from last period</span>
+            </div>
+          </article>
+          <article class="card">
+            <div class="flex items-start justify-between px-4 pt-4">
+              <span class="icon-chip bg-iris-soft text-iris-t"
+                ><svg class="i"><use href="#i-dollar"></use></svg></span
+              ><svg
+                viewBox="0 0 80 28"
+                class="h-7 w-20 text-iris"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M0.0,17.1 C1.2,18.0 4.8,21.2 7.3,22.1 C9.7,23.1 12.1,22.9 14.5,23.0 C17.0,23.1 19.4,23.0 21.8,23.0 C24.2,23.0 26.7,23.7 29.1,23.0 C31.5,22.3 33.9,19.1 36.4,18.9 C38.8,18.6 41.2,21.4 43.6,21.5 C46.1,21.6 48.5,20.2 50.9,19.5 C53.3,18.9 55.8,17.3 58.2,17.6 C60.6,17.8 63.0,20.3 65.5,21.2 C67.9,22.1 70.3,22.7 72.7,23.0 C75.2,23.3 78.8,23.0 80.0,23.0"
+                ></path>
+              </svg>
+            </div>
+            <div class="px-4 pb-4 pt-3">
+              <p class="text-[0.8125rem] text-muted">Total commission</p>
+              <p class="mt-1 font-display text-[1.625rem] font-bold tracking-tight">$54,393</p>
+            </div>
+            <div class="kpi-foot">
+              <span class="pill bg-spruce-soft text-spruce-t"
+                ><svg class="i h-3 w-3"><use href="#i-arrow-up"></use></svg>13.6%</span
+              ><span>from last period</span>
+            </div>
+          </article>
+          <article class="card">
+            <div class="flex items-start justify-between px-4 pt-4">
+              <span class="icon-chip bg-spruce-soft text-spruce-t"
+                ><svg class="i"><use href="#i-hourglass"></use></svg></span
+              ><svg
+                viewBox="0 0 80 28"
+                class="h-7 w-20 text-spruce"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M0.0,10.6 C1.2,10.2 4.8,8.9 7.3,8.0 C9.7,7.1 12.1,4.9 14.5,5.2 C17.0,5.5 19.4,9.7 21.8,10.0 C24.2,10.2 26.7,7.7 29.1,6.8 C31.5,6.0 33.9,5.3 36.4,5.0 C38.8,4.7 41.2,5.0 43.6,5.0 C46.1,5.0 48.5,4.0 50.9,5.0 C53.3,6.0 55.8,9.3 58.2,10.8 C60.6,12.3 63.0,13.9 65.5,14.2 C67.9,14.5 70.3,12.0 72.7,12.8 C75.2,13.5 78.8,17.8 80.0,18.8"
+                ></path>
+              </svg>
+            </div>
+            <div class="px-4 pb-4 pt-3">
+              <p class="text-[0.8125rem] text-muted">Avg. days to close</p>
+              <p class="mt-1 font-display text-[1.625rem] font-bold tracking-tight">34.0</p>
+            </div>
+            <div class="kpi-foot">
+              <span class="pill bg-spruce-soft text-spruce-t"
+                ><svg class="i h-3 w-3"><use href="#i-arrow-down"></use></svg>1.9%</span
+              ><span>from last period</span>
+            </div>
+          </article>
+          <article class="card">
+            <div class="flex items-start justify-between px-4 pt-4">
+              <span class="icon-chip bg-saffron-soft text-saffron-t"
+                ><svg class="i"><use href="#i-trending"></use></svg></span
+              ><svg
+                viewBox="0 0 80 28"
+                class="h-7 w-20 text-saffron"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M0.0,13.2 C1.2,13.8 4.8,16.7 7.3,16.6 C9.7,16.5 12.1,13.3 14.5,12.6 C17.0,11.8 19.4,11.8 21.8,12.1 C24.2,12.4 26.7,13.9 29.1,14.2 C31.5,14.6 33.9,14.0 36.4,14.4 C38.8,14.8 41.2,16.3 43.6,16.5 C46.1,16.8 48.5,15.4 50.9,15.9 C53.3,16.5 55.8,18.6 58.2,19.7 C60.6,20.9 63.0,23.0 65.5,23.0 C67.9,23.0 70.3,20.6 72.7,19.6 C75.2,18.7 78.8,17.6 80.0,17.2"
+                ></path>
+              </svg>
+            </div>
+            <div class="px-4 pb-4 pt-3">
+              <p class="text-[0.8125rem] text-muted">Pull-through rate</p>
+              <p class="mt-1 font-display text-[1.625rem] font-bold tracking-tight">73.3%</p>
+            </div>
+            <div class="kpi-foot">
+              <span class="pill bg-spruce-soft text-spruce-t"
+                ><svg class="i h-3 w-3"><use href="#i-arrow-up"></use></svg>5.9%</span
+              ><span>from last period</span>
+            </div>
+          </article>
+        </section>
+        <section class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_24.375rem]">
+          <article class="card p-4 sm:p-5" id="rev">
+            <header class="flex flex-wrap items-center gap-3">
+              <h2 class="card-title text-base">Revenue</h2>
+              <div class="ml-auto flex items-center gap-4 text-xs text-muted">
+                <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-ember"></span>This period</span
+                ><span class="flex items-center gap-1.5"><span class="w-4 border-t-2 border-dashed border-iris"></span>Last period</span>
+                <a href="settings.html#/settings/goals" class="icon-btn h-9 w-9" aria-label="Open goals"
+                  ><svg class="i"><use href="#i-arrow-ur"></use></svg
+                ></a>
+              </div>
+            </header>
+            <p class="mt-3 flex flex-wrap items-center gap-3">
+              <span class="font-display text-[1.75rem] font-bold tracking-tight">$54,393</span
+              ><span class="pill bg-spruce-soft text-spruce-t"
+                ><svg class="i h-3 w-3"><use href="#i-arrow-up"></use></svg>13.6%</span
+              ><span class="text-xs text-muted">commission, last 30 days · the line is the 30-day run-rate</span>
+            </p>
+            <div class="mt-4 flex gap-3">
+              <div class="flex h-[16.25rem] w-12 shrink-0 flex-col justify-between pb-0.5 text-right text-[0.6875rem] text-muted">
+                <span>$100K</span><span>$50K</span><span>$0</span>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div id="plot" class="relative h-[16.25rem] touch-none">
+                  <svg viewBox="0 0 1000 260" preserveAspectRatio="none" class="h-full w-full overflow-visible" aria-label="Revenue chart" role="img">
+                    <defs>
+                      <linearGradient id="rg" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="var(--ember)" stop-opacity=".28"></stop>
+                        <stop offset="1" stop-color="var(--ember)" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                    <line x1="0" x2="1000" y1="254" y2="254" stroke="var(--line)" stroke-dasharray="3 5" vector-effect="non-scaling-stroke"></line>
+                    <line x1="0" x2="1000" y1="130" y2="130" stroke="var(--line)" stroke-dasharray="3 5" vector-effect="non-scaling-stroke"></line>
+                    <line x1="0" x2="1000" y1="6" y2="6" stroke="var(--line)" stroke-dasharray="3 5" vector-effect="non-scaling-stroke"></line>
+                    <path
+                      d="M0.0,100.0 C5.6,98.8 22.2,93.8 33.3,92.9 C44.4,91.9 55.6,91.5 66.7,94.3 C77.8,97.2 88.9,104.9 100.0,109.9 C111.1,115.0 122.2,123.0 133.3,124.7 C144.4,126.4 155.6,120.4 166.7,120.1 C177.8,119.7 188.9,121.5 200.0,122.6 C211.1,123.6 222.2,122.6 233.3,126.3 C244.4,129.9 255.6,136.0 266.7,144.3 C277.8,152.6 288.9,167.3 300.0,176.0 C311.1,184.8 322.2,194.8 333.3,196.7 C344.4,198.6 355.6,191.5 366.7,187.4 C377.8,183.3 388.9,177.2 400.0,172.0 C411.1,166.7 422.2,160.7 433.3,155.8 C444.4,151.0 455.6,146.2 466.7,142.7 C477.8,139.1 488.9,136.4 500.0,134.5 C511.1,132.7 522.2,133.0 533.3,131.5 C544.4,130.0 555.6,128.0 566.7,125.6 C577.8,123.3 588.9,122.9 600.0,117.4 C611.1,112.0 622.2,99.1 633.3,93.0 C644.4,86.9 655.6,79.2 666.7,80.9 C677.8,82.6 688.9,96.3 700.0,103.1 C711.1,109.9 722.2,112.8 733.3,121.7 C744.4,130.6 755.6,148.5 766.7,156.3 C777.8,164.2 788.9,166.1 800.0,168.9 C811.1,171.8 822.2,173.7 833.3,173.5 C844.4,173.3 855.6,169.9 866.7,167.6 C877.8,165.2 888.9,159.1 900.0,159.6 C911.1,160.1 922.2,166.4 933.3,170.8 C944.4,175.2 955.6,184.2 966.7,186.0 C977.8,187.7 994.4,182.2 1000.0,181.5 L1000,260 L0,260 Z"
+                      fill="url(#rg)"
+                    ></path>
+                    <path
+                      d="M0.0,130.4 C5.6,131.9 22.2,138.7 33.3,139.9 C44.4,141.1 55.6,139.2 66.7,137.5 C77.8,135.7 88.9,129.7 100.0,129.4 C111.1,129.0 122.2,131.8 133.3,135.4 C144.4,139.0 155.6,145.1 166.7,150.8 C177.8,156.6 188.9,165.2 200.0,170.0 C211.1,174.8 222.2,179.0 233.3,179.5 C244.4,180.0 255.6,177.4 266.7,173.1 C277.8,168.7 288.9,158.4 300.0,153.1 C311.1,147.9 322.2,146.3 333.3,141.4 C344.4,136.5 355.6,125.5 366.7,123.8 C377.8,122.0 388.9,129.4 400.0,130.9 C411.1,132.4 422.2,133.9 433.3,132.7 C444.4,131.5 455.6,127.2 466.7,123.8 C477.8,120.4 488.9,115.5 500.0,112.3 C511.1,109.1 522.2,106.9 533.3,104.6 C544.4,102.3 555.6,96.6 566.7,98.5 C577.8,100.4 588.9,109.4 600.0,116.1 C611.1,122.9 622.2,131.9 633.3,139.0 C644.4,146.1 655.6,154.0 666.7,158.8 C677.8,163.5 688.9,166.8 700.0,167.3 C711.1,167.8 722.2,163.6 733.3,161.5 C744.4,159.5 755.6,155.9 766.7,154.9 C777.8,153.9 788.9,155.2 800.0,155.4 C811.1,155.5 822.2,153.7 833.3,156.1 C844.4,158.4 855.6,168.4 866.7,169.5 C877.8,170.5 888.9,166.0 900.0,162.4 C911.1,158.7 922.2,155.7 933.3,147.5 C944.4,139.2 955.6,121.8 966.7,112.9 C977.8,103.9 994.4,96.9 1000.0,93.7"
+                      fill="none"
+                      stroke="var(--iris)"
+                      stroke-width="2"
+                      stroke-dasharray="6 5"
+                      vector-effect="non-scaling-stroke"
+                    ></path>
+                    <path
+                      d="M0.0,100.0 C5.6,98.8 22.2,93.8 33.3,92.9 C44.4,91.9 55.6,91.5 66.7,94.3 C77.8,97.2 88.9,104.9 100.0,109.9 C111.1,115.0 122.2,123.0 133.3,124.7 C144.4,126.4 155.6,120.4 166.7,120.1 C177.8,119.7 188.9,121.5 200.0,122.6 C211.1,123.6 222.2,122.6 233.3,126.3 C244.4,129.9 255.6,136.0 266.7,144.3 C277.8,152.6 288.9,167.3 300.0,176.0 C311.1,184.8 322.2,194.8 333.3,196.7 C344.4,198.6 355.6,191.5 366.7,187.4 C377.8,183.3 388.9,177.2 400.0,172.0 C411.1,166.7 422.2,160.7 433.3,155.8 C444.4,151.0 455.6,146.2 466.7,142.7 C477.8,139.1 488.9,136.4 500.0,134.5 C511.1,132.7 522.2,133.0 533.3,131.5 C544.4,130.0 555.6,128.0 566.7,125.6 C577.8,123.3 588.9,122.9 600.0,117.4 C611.1,112.0 622.2,99.1 633.3,93.0 C644.4,86.9 655.6,79.2 666.7,80.9 C677.8,82.6 688.9,96.3 700.0,103.1 C711.1,109.9 722.2,112.8 733.3,121.7 C744.4,130.6 755.6,148.5 766.7,156.3 C777.8,164.2 788.9,166.1 800.0,168.9 C811.1,171.8 822.2,173.7 833.3,173.5 C844.4,173.3 855.6,169.9 866.7,167.6 C877.8,165.2 888.9,159.1 900.0,159.6 C911.1,160.1 922.2,166.4 933.3,170.8 C944.4,175.2 955.6,184.2 966.7,186.0 C977.8,187.7 994.4,182.2 1000.0,181.5"
+                      fill="none"
+                      stroke="var(--ember)"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      vector-effect="non-scaling-stroke"
+                    ></path>
+                  </svg>
+                  <div id="cross" class="pointer-events-none absolute inset-y-0 hidden w-px bg-line2"></div>
+                  <div
+                    id="tip"
+                    class="pointer-events-none absolute top-2 hidden whitespace-nowrap rounded-lg bg-ink px-2.5 py-1.5 text-[0.6875rem] font-semibold text-on-ink shadow-pop"
+                  ></div>
+                </div>
+                <div class="mt-2 flex justify-between text-[0.6875rem] text-muted">
+                  <span>Sep 19</span><span>Sep 21</span><span>Sep 23</span><span>Sep 25</span><span>Sep 27</span><span>Sep 29</span><span>Oct 1</span
+                  ><span>Oct 3</span><span>Oct 5</span><span>Oct 7</span><span>Oct 9</span><span>Oct 11</span><span>Oct 13</span><span>Oct 15</span
+                  ><span>Oct 17</span><span>Oct 19</span>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="card p-4 sm:p-5" id="activity">
+            <h2 class="card-title text-base">
+              My activity
+              <span class="text-faint" title="Calls, emails and file updates per day"
+                ><svg class="i h-3.5 w-3.5"><use href="#i-info"></use></svg
+              ></span>
+            </h2>
+            <p class="mt-3 font-display text-[1.75rem] font-bold tracking-tight">633</p>
+            <p class="text-xs text-muted">calls, emails and file updates · 20 weeks</p>
+            <div class="mt-3 grid text-[0.6875rem] text-muted" style="grid-template-columns: repeat(20, minmax(0, 1fr))">
+              <span style="grid-column: 1">Jun</span><span style="grid-column: 6">Jul</span><span style="grid-column: 10">Aug</span
+              ><span style="grid-column: 15">Sep</span><span style="grid-column: 19">Oct</span>
+            </div>
+            <div class="mt-1 grid grid-flow-col grid-rows-7 gap-1" style="grid-template-columns: repeat(20, minmax(0, 1fr))">
+              <span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--well)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="aspect-square rounded-[0.25rem]" style="background: var(--iris)"></span>
+            </div>
+            <div class="mt-3 flex items-center gap-1.5 text-[0.6875rem] text-muted">
+              Less <span class="h-2.5 w-2.5 rounded-[0.1875rem]" style="background: var(--well)"></span
+              ><span class="h-2.5 w-2.5 rounded-[0.1875rem]" style="background: color-mix(in srgb, var(--iris) 24%, transparent)"></span
+              ><span class="h-2.5 w-2.5 rounded-[0.1875rem]" style="background: color-mix(in srgb, var(--iris) 45%, transparent)"></span
+              ><span class="h-2.5 w-2.5 rounded-[0.1875rem]" style="background: color-mix(in srgb, var(--iris) 72%, transparent)"></span
+              ><span class="h-2.5 w-2.5 rounded-[0.1875rem]" style="background: var(--iris)"></span> More
+            </div>
+            <dl class="mt-4 grid grid-cols-3 gap-2 border-t border-line pt-4 text-xs">
+              <div>
+                <dt class="text-muted">This week</dt>
+                <dd class="font-display text-base font-bold">36</dd>
+              </div>
+              <div>
+                <dt class="text-muted">Per workday</dt>
+                <dd class="font-display text-base font-bold">6.3</dd>
+              </div>
+              <div>
+                <dt class="text-muted">Best streak</dt>
+                <dd class="font-display text-base font-bold">28 days</dd>
+              </div>
+            </dl>
+          </article>
+        </section>
+        <section class="grid gap-4 lg:grid-cols-2" id="mix">
+          <article class="card p-4 sm:p-5">
+            <header class="flex items-center gap-2">
+              <h2 class="card-title text-base">
+                Lead source performance
+                <span class="text-faint"
+                  ><svg class="i h-3.5 w-3.5"><use href="#i-info"></use></svg
+                ></span>
+              </h2>
+              <a href="leads.html" class="icon-btn ml-auto h-9 w-9" aria-label="Open leads"
+                ><svg class="i"><use href="#i-arrow-ur"></use></svg
+              ></a>
+            </header>
+            <p class="mt-3 flex items-center gap-4 text-xs text-muted">
+              <span class="flex items-center gap-1.5"
+                ><span class="h-2 w-2 rounded-full" style="background: color-mix(in srgb, var(--ember) 26%, transparent)"></span>All leads</span
+              ><span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-ember"></span>Became a loan</span>
+            </p>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <div class="mb-1.5 flex justify-between text-[0.8125rem]">
+                  <span class="font-bold">Agent referrals</span><span class="text-muted"><b class="text-fg">21</b> / 78</span>
+                </div>
+                <div class="relative h-2.5 rounded-full bg-well">
+                  <div
+                    class="absolute inset-y-0 left-0 rounded-full"
+                    style="width: 100%; background: color-mix(in srgb, var(--ember) 26%, transparent)"
+                  ></div>
+                  <div class="absolute inset-y-0 left-0 rounded-full" style="width: 26.923076923076923%; background: var(--ember)"></div>
+                </div>
+              </li>
+              <li>
+                <div class="mb-1.5 flex justify-between text-[0.8125rem]">
+                  <span class="font-bold">Website</span><span class="text-muted"><b class="text-fg">6</b> / 50</span>
+                </div>
+                <div class="relative h-2.5 rounded-full bg-well">
+                  <div
+                    class="absolute inset-y-0 left-0 rounded-full"
+                    style="width: 64.1025641025641%; background: color-mix(in srgb, var(--iris) 26%, transparent)"
+                  ></div>
+                  <div class="absolute inset-y-0 left-0 rounded-full" style="width: 7.6923076923076925%; background: var(--iris)"></div>
+                </div>
+              </li>
+              <li>
+                <div class="mb-1.5 flex justify-between text-[0.8125rem]">
+                  <span class="font-bold">Past clients</span><span class="text-muted"><b class="text-fg">12</b> / 34</span>
+                </div>
+                <div class="relative h-2.5 rounded-full bg-well">
+                  <div
+                    class="absolute inset-y-0 left-0 rounded-full"
+                    style="width: 43.58974358974359%; background: color-mix(in srgb, var(--spruce) 26%, transparent)"
+                  ></div>
+                  <div class="absolute inset-y-0 left-0 rounded-full" style="width: 15.384615384615385%; background: var(--spruce)"></div>
+                </div>
+              </li>
+              <li>
+                <div class="mb-1.5 flex justify-between text-[0.8125rem]">
+                  <span class="font-bold">Social</span><span class="text-muted"><b class="text-fg">3</b> / 25</span>
+                </div>
+                <div class="relative h-2.5 rounded-full bg-well">
+                  <div
+                    class="absolute inset-y-0 left-0 rounded-full"
+                    style="width: 32.05128205128205%; background: color-mix(in srgb, var(--saffron) 26%, transparent)"
+                  ></div>
+                  <div class="absolute inset-y-0 left-0 rounded-full" style="width: 3.8461538461538463%; background: var(--saffron)"></div>
+                </div>
+              </li>
+              <li>
+                <div class="mb-1.5 flex justify-between text-[0.8125rem]">
+                  <span class="font-bold">Open houses</span><span class="text-muted"><b class="text-fg">2</b> / 14</span>
+                </div>
+                <div class="relative h-2.5 rounded-full bg-well">
+                  <div
+                    class="absolute inset-y-0 left-0 rounded-full"
+                    style="width: 17.94871794871795%; background: color-mix(in srgb, var(--faint) 26%, transparent)"
+                  ></div>
+                  <div class="absolute inset-y-0 left-0 rounded-full" style="width: 2.564102564102564%; background: var(--faint)"></div>
+                </div>
+              </li>
+            </ul>
+          </article>
+          <article class="card p-4 sm:p-5">
+            <header class="flex items-center gap-2">
+              <h2 class="card-title text-base">
+                Loan product mix
+                <span class="text-faint"
+                  ><svg class="i h-3.5 w-3.5"><use href="#i-info"></use></svg
+                ></span>
+              </h2>
+              <a href="applications.html" class="icon-btn ml-auto h-9 w-9" aria-label="Open applications"
+                ><svg class="i"><use href="#i-arrow-ur"></use></svg
+              ></a>
+            </header>
+            <div class="mt-4 flex flex-col items-center gap-6 sm:flex-row">
+              <div class="relative h-[8.5rem] w-[8.5rem] shrink-0">
+                <svg viewBox="0 0 120 120" class="h-full w-full" role="img" aria-label="Loan product mix">
+                  <circle cx="60" cy="60" r="44" fill="none" stroke="var(--well)" stroke-width="15"></circle>
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="44"
+                    fill="none"
+                    stroke="var(--ember)"
+                    stroke-width="15"
+                    stroke-dasharray="132.5 276.5"
+                    stroke-dashoffset="0.0"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="44"
+                    fill="none"
+                    stroke="var(--iris)"
+                    stroke-width="15"
+                    stroke-dasharray="30.2 276.5"
+                    stroke-dashoffset="-135.5"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="44"
+                    fill="none"
+                    stroke="var(--spruce)"
+                    stroke-width="15"
+                    stroke-dasharray="44.0 276.5"
+                    stroke-dashoffset="-168.6"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="44"
+                    fill="none"
+                    stroke="var(--saffron)"
+                    stroke-width="15"
+                    stroke-dasharray="57.8 276.5"
+                    stroke-dashoffset="-215.6"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                </svg>
+                <div class="absolute inset-0 grid place-content-center text-center">
+                  <span class="font-display text-xl font-bold leading-none">+7%</span
+                  ><span class="mt-1 text-[0.6875rem] leading-tight text-muted">volume vs last</span>
+                </div>
+              </div>
+              <ul class="w-full divide-y divide-line">
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="h-2 w-2 shrink-0 rounded-full bg-ember"></span>
+                  <div class="min-w-0 flex-1">
+                    <p class="text-sm font-bold">Conventional</p>
+                    <p class="text-xs text-muted">49% · 6 loans</p>
+                  </div>
+                  <span class="font-display text-base font-bold">$2.41M</span>
+                </li>
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="h-2 w-2 shrink-0 rounded-full bg-iris"></span>
+                  <div class="min-w-0 flex-1">
+                    <p class="text-sm font-bold">FHA</p>
+                    <p class="text-xs text-muted">12% · 2 loans</p>
+                  </div>
+                  <span class="font-display text-base font-bold">$600K</span>
+                </li>
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="h-2 w-2 shrink-0 rounded-full bg-spruce"></span>
+                  <div class="min-w-0 flex-1">
+                    <p class="text-sm font-bold">VA</p>
+                    <p class="text-xs text-muted">17% · 2 loans</p>
+                  </div>
+                  <span class="font-display text-base font-bold">$845K</span>
+                </li>
+                <li class="flex items-center gap-3 py-2.5">
+                  <span class="h-2 w-2 shrink-0 rounded-full bg-saffron"></span>
+                  <div class="min-w-0 flex-1">
+                    <p class="text-sm font-bold">Jumbo</p>
+                    <p class="text-xs text-muted">22% · 1 loan</p>
+                  </div>
+                  <span class="font-display text-base font-bold">$1.07M</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+        </section>
+        <section class="card p-4 sm:p-5" id="funnel">
+          <header class="flex items-center gap-2">
+            <h2 class="card-title text-base">Conversion funnel</h2>
+            <span class="ml-auto text-xs text-muted">Last 30 days</span
+            ><a href="pipeline.html" class="icon-btn h-9 w-9" aria-label="Open pipeline"
+              ><svg class="i"><use href="#i-arrow-ur"></use></svg
+            ></a>
+          </header>
+          <ul class="mt-4 space-y-2.5">
+            <li class="relative h-10 overflow-hidden rounded-lg bg-well">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center rounded-lg px-3 text-sm"
+                style="
+                  width: 100%;
+                  min-width: 9rem;
+                  background: color-mix(in srgb, var(--ember) 28%, transparent);
+                  box-shadow: inset -3px 0 0 var(--ember);
+                "
+              >
+                <b class="mr-2 font-display text-base">67</b><span class="font-semibold">Leads</span>
+              </div>
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted">Top of funnel</span>
+            </li>
+            <li class="relative h-10 overflow-hidden rounded-lg bg-well">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center rounded-lg px-3 text-sm"
+                style="
+                  width: 35.82089552238806%;
+                  min-width: 9rem;
+                  background: color-mix(in srgb, var(--iris) 28%, transparent);
+                  box-shadow: inset -3px 0 0 var(--iris);
+                "
+              >
+                <b class="mr-2 font-display text-base">24</b><span class="font-semibold">Applications</span>
+              </div>
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted">36% of previous</span>
+            </li>
+            <li class="relative h-10 overflow-hidden rounded-lg bg-well">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center rounded-lg px-3 text-sm"
+                style="
+                  width: 22.388059701492537%;
+                  min-width: 9rem;
+                  background: color-mix(in srgb, var(--spruce) 28%, transparent);
+                  box-shadow: inset -3px 0 0 var(--spruce);
+                "
+              >
+                <b class="mr-2 font-display text-base">15</b><span class="font-semibold">Clear to close</span>
+              </div>
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted">63% of previous</span>
+            </li>
+            <li class="relative h-10 overflow-hidden rounded-lg bg-well">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center rounded-lg px-3 text-sm"
+                style="
+                  width: 16.417910447761194%;
+                  min-width: 9rem;
+                  background: color-mix(in srgb, var(--saffron) 28%, transparent);
+                  box-shadow: inset -3px 0 0 var(--saffron);
+                "
+              >
+                <b class="mr-2 font-display text-base">11</b><span class="font-semibold">Funded</span>
+              </div>
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted">73% of previous</span>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+      <dialog id="shortcutsDlg" class="w-[min(24rem,calc(100vw-2rem))] rounded-2xl border border-line bg-surface p-0 text-fg shadow-pop backdrop:bg-black/50">
+    <form method="dialog" class="p-5">
+      <h2 class="font-display text-lg font-bold tracking-tight">Keyboard shortcuts</h2>
+      <dl class="mt-3 divide-y divide-line text-sm">
+        <div class="flex items-center justify-between py-2.5"><dt class="text-muted">Focus search</dt><dd><kbd class="rounded-md border border-line px-1.5 py-0.5 text-xs font-bold">Ctrl / ⌘ + K</kbd></dd></div>
+        <div class="flex items-center justify-between py-2.5"><dt class="text-muted">Close menus and dialogs</dt><dd><kbd class="rounded-md border border-line px-1.5 py-0.5 text-xs font-bold">Esc</kbd></dd></div>
+      </dl>
+      <div class="mt-4 flex justify-end"><button class="btn">Close</button></div>
+    </form>
+  </dialog>
+
+  <script src="src/app.js" defer></script>
+  </body>
+</html>

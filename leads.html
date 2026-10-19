@@ -1,0 +1,1200 @@
+<!doctype html>
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Leads · Appinion Admin</title>
+    <meta name="theme-color" content="#f3efe8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Apply saved / system theme before paint to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("hearth-theme");
+          var dark = t === "dark" || ((!t || t === "system") && matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+          if (localStorage.getItem("hearth-sb") === "1") document.documentElement.classList.add("sb-collapsed");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="dist/styles.css" />
+  </head>
+
+  <body class="min-h-screen">
+    <!-- ============ Icon sprite (Lucide-style, stroke icons) ============ -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="M3 10.5 12 3l9 7.5" />
+        <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" />
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="9" rx="1.5" />
+        <rect x="14" y="3" width="7" height="5" rx="1.5" />
+        <rect x="14" y="12" width="7" height="9" rx="1.5" />
+        <rect x="3" y="16" width="7" height="5" rx="1.5" />
+      </symbol>
+      <symbol id="i-user-plus" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="4" />
+        <path d="M2 21a7 7 0 0 1 14 0" />
+        <path d="M19 8v6M16 11h6" />
+      </symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" /></symbol>
+      <symbol id="i-files" viewBox="0 0 24 24">
+        <path d="M15 3H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7Z" />
+        <path d="M15 3v4h4M3 7v12a2 2 0 0 0 2 2h9" />
+      </symbol>
+      <symbol id="i-check-square" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <path d="m8 12 3 3 5-6" />
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="17" rx="2.5" />
+        <path d="M8 2v4M16 2v4M3 10h18" />
+      </symbol>
+      <symbol id="i-kanban" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <path d="M8 7v7M12 7v10M16 7v4" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M3 3v18h18" />
+        <path d="M8 17v-5M13 17V8M18 17v-8" />
+      </symbol>
+      <symbol id="i-report" viewBox="0 0 24 24">
+        <rect x="4" y="3" width="16" height="18" rx="2.5" />
+        <path d="M8 17v-4M12 17V8M16 17v-6" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"
+        />
+      </symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24">
+        <path d="M9 2v6M15 2v6" />
+        <path d="M6 8h12v4a6 6 0 0 1-12 0Z" />
+        <path d="M12 18v4" />
+      </symbol>
+      <symbol id="i-help" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m21 21-4.3-4.3" />
+      </symbol>
+      <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol>
+      <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+      <symbol id="i-updown" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5M7 9l5-5 5 5" /></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </symbol>
+      <symbol id="i-history" viewBox="0 0 24 24">
+        <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+        <path d="M3 3v5h5M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+        <path d="M10.3 21a1.9 1.9 0 0 0 3.4 0" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" /></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" />
+        <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" />
+      </symbol>
+      <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4h13l-2 4 2 4H4" /></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24">
+        <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z" />
+        <path d="M19 17v4M17 19h4" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"
+        />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <path d="m3 7 9 6 9-6" />
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="3.5" />
+        <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+        <path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6" />
+      </symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="m8 12 3 3 5-6" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5M12 8h.01" />
+      </symbol>
+      <symbol id="i-building" viewBox="0 0 24 24">
+        <path d="M3 21h18M5 21V8l7-5 7 5v13" />
+        <path d="M9 21v-6h6v6M9 11h.01M15 11h.01" />
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24">
+        <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0Z" />
+        <path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3" />
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24">
+        <rect x="4" y="11" width="16" height="10" rx="2.5" />
+        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+      </symbol>
+      <symbol id="i-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="6" rx="8" ry="3" />
+        <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+      </symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M4 19h16" /></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4l2-2M20 20v-5h-5" /></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" /></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24">
+        <circle cx="8" cy="15" r="4" />
+        <path d="m11 12 9-9M16 7l3 3" />
+      </symbol>
+      <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="12" rx="2" />
+        <path d="M8 20h8M12 16v4" />
+      </symbol>
+      <symbol id="i-phone-device" viewBox="0 0 24 24">
+        <rect x="7" y="2" width="10" height="20" rx="2.5" />
+        <path d="M11 18h2" />
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7" /></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24">
+        <path d="M12 3 2 20h20Z" />
+        <path d="M12 10v4M12 17h.01" />
+      </symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24">
+        <path d="M12 22a7 7 0 0 0 7-7c0-4-3-6-4-10-3 2-4 5-4 7-1-1-2-2-2-4-2 2-4 5-4 8a7 7 0 0 0 7 6Z" />
+      </symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" /></symbol>
+      <symbol id="i-command" viewBox="0 0 24 24"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9Z" /></symbol>
+      <symbol id="i-dots" viewBox="0 0 24 24">
+        <circle cx="5" cy="12" r="1.2" />
+        <circle cx="12" cy="12" r="1.2" />
+        <circle cx="19" cy="12" r="1.2" />
+      </symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7" /></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4-2v-4Z" /></symbol>
+      <symbol id="i-percent" viewBox="0 0 24 24">
+        <path d="M19 5 5 19" />
+        <circle cx="7" cy="7" r="2.5" />
+        <circle cx="17" cy="17" r="2.5" />
+      </symbol>
+      <symbol id="i-dollar" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6" /></symbol>
+      <symbol id="i-hourglass" viewBox="0 0 24 24">
+        <path d="M6 2h12M6 22h12M7 2v4a5 5 0 0 0 2 4l3 2-3 2a5 5 0 0 0-2 4v4M17 2v4a5 5 0 0 1-2 4l-3 2 3 2a5 5 0 0 1 2 4v4" />
+      </symbol>
+      <symbol id="i-trending" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6" /></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-briefcase" viewBox="0 0 24 24">
+        <rect x="3" y="7" width="18" height="13" rx="2.5" />
+        <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
+      </symbol>
+      <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+    </svg>
+
+    <!-- Mobile overlay -->
+    <div id="overlay" class="fixed inset-0 z-40 hidden bg-black/50 backdrop-blur-sm lg:hidden" aria-hidden="true"></div>
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside
+      id="sidebar"
+      class="fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col bg-side text-side-fg shadow-pop transition-[transform,width] duration-300 lg:w-[var(--sbw)] lg:translate-x-0 lg:shadow-none"
+      aria-label="Primary"
+    >
+      <!-- Brand -->
+      <div class="flex items-center gap-3 px-4 pb-3 pt-4">
+        <a href="#" class="flex min-w-0 items-center gap-3">
+          <span
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-white shadow-ember"
+            style="background-image: linear-gradient(160deg, #f07445, #d94d24)"
+          >
+            <svg class="i h-5 w-5"><use href="#i-home" /></svg>
+          </span>
+          <span class="sb-label min-w-0 leading-tight">
+            <span class="block font-display text-[1.0625rem] font-bold tracking-tight text-white">Appinion Admin</span>
+            <span class="block truncate text-xs text-side-fg/55">Lending CRM</span>
+          </span>
+        </a>
+        <button
+          id="sbToggle"
+          type="button"
+          aria-label="Collapse sidebar"
+          class="sb-label ml-auto hidden h-8 w-8 place-items-center rounded-lg border border-white/10 text-side-fg/70 transition hover:bg-white/5 lg:grid"
+        >
+          <svg class="i h-3.5 w-3.5"><use href="#i-chev-left" /></svg>
+        </button>
+        <button
+          id="sbClose"
+          type="button"
+          aria-label="Close menu"
+          class="ml-auto grid h-8 w-8 place-items-center rounded-lg border border-white/10 text-side-fg/70 lg:hidden"
+        >
+          <svg class="i"><use href="#i-x" /></svg>
+        </button>
+      </div>
+
+      <!-- Search -->
+      <div class="px-3">
+        <label
+          class="sb-search flex h-10 cursor-text items-center gap-2.5 rounded-[0.625rem] border border-white/10 bg-white/[.04] px-3 text-sm text-side-fg/60 focus-within:border-ember"
+        >
+          <svg class="i"><use href="#i-search" /></svg>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search"
+            class="sb-label min-w-0 flex-1 bg-transparent text-side-fg outline-none placeholder:text-side-fg/55"
+          />
+          <kbd class="sb-label rounded-md border border-white/10 px-1.5 py-0.5 text-[0.625rem] font-bold text-side-fg/50">⌘K</kbd>
+        </label>
+      </div>
+
+      <!-- Nav -->
+      <nav class="mt-1 flex-1 overflow-y-auto px-3 pb-3">
+        <p class="nav-head">Main menu</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="index.html" class="nav-link"
+              ><svg class="i"><use href="#i-grid" /></svg><span class="sb-label">Dashboard</span></a
+            >
+          </li>
+          <li>
+            <a href="leads.html" class="nav-link active" aria-current="page"
+              ><svg class="i"><use href="#i-user-plus" /></svg><span class="sb-label">Leads</span><span class="nav-count hot">12</span></a
+            >
+          </li>
+          <li>
+            <a href="applications.html" class="nav-link"
+              ><svg class="i"><use href="#i-files" /></svg><span class="sb-label">Applications</span></a
+            >
+          </li>
+          <li>
+            <a href="documents.html" class="nav-link"
+              ><svg class="i"><use href="#i-folder" /></svg><span class="sb-label">Documents</span><span class="nav-count">17</span></a
+            >
+          </li>
+          <li>
+            <a href="#/tasks" class="nav-link"
+              ><svg class="i"><use href="#i-check-square" /></svg><span class="sb-label">Tasks</span><span class="nav-count">7</span></a
+            >
+          </li>
+          <li>
+            <a href="calendar.html" class="nav-link"
+              ><svg class="i"><use href="#i-calendar" /></svg><span class="sb-label">Calendar</span></a
+            >
+          </li>
+          <li>
+            <a href="pipeline.html" class="nav-link"
+              ><svg class="i"><use href="#i-kanban" /></svg><span class="sb-label">Pipeline</span></a
+            >
+          </li>
+        </ul>
+
+        <p class="nav-head">Report</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="analytics.html" class="nav-link"
+              ><svg class="i"><use href="#i-chart" /></svg><span class="sb-label">Analytics</span></a
+            >
+          </li>
+          <li>
+            <a href="#/reports" class="nav-link"
+              ><svg class="i"><use href="#i-report" /></svg><span class="sb-label">Reports</span></a
+            >
+          </li>
+          <li>
+            <a href="audit-log.html" class="nav-link"
+              ><svg class="i"><use href="#i-history" /></svg><span class="sb-label">Audit log</span></a
+            >
+          </li>
+        </ul>
+
+        <p class="nav-head">Settings</p>
+        <ul class="space-y-1">
+          <li>
+            <a href="settings.html" class="nav-link"
+              ><svg class="i"><use href="#i-settings" /></svg><span class="sb-label">Settings</span></a
+            >
+          </li>
+          <li>
+            <a href="#/integrations" class="nav-link"
+              ><svg class="i"><use href="#i-plug" /></svg><span class="sb-label">Integrations</span></a
+            >
+          </li>
+          <li>
+            <a href="#/help" class="nav-link"
+              ><svg class="i"><use href="#i-help" /></svg><span class="sb-label">Help &amp; Support</span></a
+            >
+          </li>
+          <li>
+            <a href="components.html" class="nav-link"
+              ><svg class="i"><use href="#i-grid" /></svg><span class="sb-label">Components</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Goal mini card -->
+      <div
+        class="sb-goal mx-3 mb-3 rounded-xl border border-white/10 p-3"
+        style="background-image: linear-gradient(135deg, rgb(225 90 51/0.18), rgb(122 114 230/0.14))"
+      >
+        <div class="flex items-center justify-between text-xs font-semibold text-side-fg/80">
+          <span>Monthly goal</span><span class="font-extrabold text-white">59%</span>
+        </div>
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full w-[59%] rounded-full bg-gradient-to-r from-ember to-[#f39a7b]"></div>
+        </div>
+        <p class="mt-2 text-[0.6875rem] text-side-fg/55">$2.94M of $5M funded</p>
+      </div>
+
+      <!-- User -->
+      <div class="relative mx-3 mb-3">
+      <div id="userMenu" role="menu" hidden class="absolute bottom-full left-0 z-10 mb-2 w-60 origin-bottom rounded-2xl border border-line bg-float p-2 text-fg shadow-pop">
+        <a role="menuitem" href="settings.html" class="menu-item"><svg class="i"><use href="#i-settings" /></svg>Profile &amp; settings</a>
+        <button type="button" role="menuitem" id="shortcutsBtn" class="menu-item"><svg class="i"><use href="#i-command" /></svg>Keyboard shortcuts</button>
+        <a role="menuitem" href="#/help" class="menu-item"><svg class="i"><use href="#i-help" /></svg>Help &amp; Support</a>
+        <hr class="my-1.5 border-line" />
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="light" class="menu-item"><svg class="i"><use href="#i-sun" /></svg>Light<svg class="i tick"><use href="#i-check" /></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="dark" class="menu-item"><svg class="i"><use href="#i-moon" /></svg>Dark<svg class="i tick"><use href="#i-check" /></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="system" class="menu-item"><svg class="i"><use href="#i-phone-device" /></svg>Match system<svg class="i tick"><use href="#i-check" /></svg></button>
+        <hr class="my-1.5 border-line" />
+        <button type="button" role="menuitem" id="resetBtn" class="menu-item !text-ember-t"><svg class="i !text-ember-t"><use href="#i-refresh" /></svg>Reset demo data</button>
+        <button type="button" role="menuitem" id="logoutBtn" class="menu-item !text-ember-t"><svg class="i !text-ember-t"><use href="#i-log-out" /></svg>Log out</button>
+      </div>
+      <button type="button" id="userBtn" aria-haspopup="menu" aria-expanded="false" class="sb-user flex w-full items-center gap-3 rounded-xl border border-white/10 p-2 text-left transition hover:bg-white/5"
+      >
+        <img class="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-white/15" src="https://i.pravatar.cc/80?img=47" alt="" />
+        <span class="sb-label min-w-0 flex-1 leading-tight">
+          <span class="block truncate text-[0.8125rem] font-bold text-white">Elena Marquez</span>
+          <span class="block truncate text-[0.6875rem] text-side-fg/55">Senior Loan Officer</span>
+        </span>
+        <svg class="i sb-label h-3.5 w-3.5 text-side-fg/50"><use href="#i-updown" /></svg>
+      </button>
+    </div>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <div class="transition-[padding] duration-300 lg:pl-[var(--sbw)]">
+      <!-- Topbar -->
+      <header
+        class="sticky top-0 z-30 flex h-[4.25rem] items-center gap-3 px-4 backdrop-blur-md sm:px-6 lg:px-8"
+        style="background: color-mix(in srgb, var(--bg) 70%, transparent)"
+      >
+        <button id="menuBtn" type="button" class="icon-btn lg:hidden" aria-label="Open menu">
+          <svg class="i"><use href="#i-menu" /></svg>
+        </button>
+        <button id="sbExpand" type="button" class="icon-btn hidden" aria-label="Expand sidebar">
+          <svg class="i"><use href="#i-chev-right" /></svg>
+        </button>
+
+        <nav class="flex min-w-0 items-center gap-2 text-sm" aria-label="Breadcrumb">
+          <span class="hidden text-muted sm:inline">Appinion Admin</span>
+          <svg class="i hidden h-3 w-3 text-faint sm:block"><use href="#i-chev-right" /></svg>
+          <span class="truncate font-bold">Leads</span>
+          <span class="pill ml-1 hidden bg-spruce-soft text-spruce-t md:inline-flex">
+            <span class="h-1.5 w-1.5 rounded-full bg-spruce"></span>Synced just now
+          </span>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-2">
+          <button id="themeBtn" type="button" class="icon-btn" aria-label="Toggle dark mode">
+            <svg class="i dark:hidden"><use href="#i-moon" /></svg>
+            <svg class="i hidden dark:block"><use href="#i-sun" /></svg>
+          </button>
+          <button type="button" class="icon-btn hidden sm:grid" aria-label="Recent activity">
+            <svg class="i"><use href="#i-history" /></svg>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Notifications">
+            <svg class="i"><use href="#i-bell" /></svg>
+            <span class="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-float bg-ember"></span>
+          </button>
+          <button type="button" class="btn btn-ember">
+            <svg class="i"><use href="#i-plus" /></svg>New
+          </button>
+        </div>
+      </header>
+
+      <main id="page" class="space-y-4 px-4 pb-10 pt-0 sm:px-6 lg:px-8">
+        <section class="flex flex-col gap-4 pb-1 pt-0 lg:flex-row lg:items-end lg:justify-between">
+          <div class="min-w-0">
+            <h1 class="font-display text-[2rem] font-bold leading-tight tracking-[-0.03em] sm:text-[2.375rem]">Leads</h1>
+            <p class="mt-1 text-sm text-muted">Every borrower who raised a hand, and how ready they are.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <label
+              class="flex h-9 w-full cursor-text items-center gap-2.5 rounded-xl border border-line bg-float px-3.5 text-muted shadow-card focus-within:border-ember sm:w-[16.25rem]"
+              ><svg class="i"><use href="#i-search"></use></svg
+              ><input
+                id="q"
+                type="search"
+                placeholder="Search name, email, city…"
+                class="min-w-0 flex-1 bg-transparent text-[0.8125rem] font-semibold text-fg outline-none placeholder:font-medium placeholder:text-faint"
+            /></label>
+            <button type="button" id="export" class="btn">
+              <svg class="i"><use href="#i-download"></use></svg>Export
+            </button>
+            <button type="button" class="btn btn-ember px-4">
+              <svg class="i"><use href="#i-plus"></use></svg>New lead
+            </button>
+          </div>
+        </section>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div id="chips" class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-[0.78rem] font-bold transition border-transparent bg-ink text-on-ink"
+            >
+              All<span class="opacity-70 text-xs font-semibold">38</span></button
+            ><button
+              type="button"
+              class="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-[0.78rem] font-bold transition border-line bg-float text-fg hover:border-line2"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-iris"></span>New<span class="text-muted text-xs font-semibold">12</span></button
+            ><button
+              type="button"
+              class="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-[0.78rem] font-bold transition border-line bg-float text-fg hover:border-line2"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-saffron"></span>Contacted<span class="text-muted text-xs font-semibold">11</span></button
+            ><button
+              type="button"
+              class="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-[0.78rem] font-bold transition border-line bg-float text-fg hover:border-line2"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Qualified<span class="text-muted text-xs font-semibold">4</span></button
+            ><button
+              type="button"
+              class="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-[0.78rem] font-bold transition border-line bg-float text-fg hover:border-line2"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-faint"></span>Nurture<span class="text-muted text-xs font-semibold">3</span></button
+            ><button
+              type="button"
+              class="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-[0.78rem] font-bold transition border-line bg-float text-fg hover:border-line2"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-spruce"></span>Converted<span class="text-muted text-xs font-semibold">3</span></button
+            ><button
+              type="button"
+              class="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-[0.78rem] font-bold transition border-line bg-float text-fg hover:border-line2"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-line2"></span>Lost<span class="text-muted text-xs font-semibold">5</span>
+            </button>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <select id="source" class="field h-9 w-auto min-w-[10rem] pr-10 text-[0.8125rem] font-bold">
+              <option>All sources</option>
+              <option>Agent referral</option>
+              <option>Website</option>
+              <option>Past client</option>
+              <option>Social</option>
+              <option>Open house</option>
+            </select>
+            <div class="seg" id="view" role="group" aria-label="View">
+              <button type="button" aria-pressed="true">Table</button><button type="button" aria-pressed="false">Board</button>
+            </div>
+          </div>
+        </div>
+        <div id="results">
+          <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[61.25rem] text-left text-sm">
+                <thead>
+                  <tr class="border-b border-line text-xs">
+                    <th class="whitespace-nowrap px-3 py-2.5 text-xs font-bold pl-5">
+                      <button type="button" class="inline-flex items-center gap-1 text-muted transition hover:text-fg">
+                        Lead<svg class="i h-3 w-3 opacity-40"><use href="#i-updown"></use></svg>
+                      </button>
+                    </th>
+                    <th class="whitespace-nowrap px-3 py-2.5 text-xs font-bold">
+                      <button type="button" class="inline-flex items-center gap-1 text-muted transition hover:text-fg">
+                        Status<svg class="i h-3 w-3 opacity-40"><use href="#i-updown"></use></svg>
+                      </button>
+                    </th>
+                    <th class="px-3 py-3 font-semibold text-muted">Source</th>
+                    <th class="px-3 py-3 font-semibold text-muted">Loan type</th>
+                    <th class="whitespace-nowrap px-3 py-2.5 text-xs font-bold text-right">
+                      <button type="button" class="inline-flex items-center gap-1 text-muted transition hover:text-fg">
+                        Amount<svg class="i h-3 w-3 opacity-40"><use href="#i-updown"></use></svg>
+                      </button>
+                    </th>
+                    <th class="whitespace-nowrap px-3 py-2.5 text-xs font-bold text-right">
+                      <button type="button" class="inline-flex items-center gap-1 text-muted transition hover:text-fg">
+                        Credit<svg class="i h-3 w-3 opacity-40"><use href="#i-updown"></use></svg>
+                      </button>
+                    </th>
+                    <th class="whitespace-nowrap px-3 py-2.5 text-xs font-bold">
+                      <button type="button" class="inline-flex items-center gap-1 text-muted transition hover:text-fg">
+                        Score<svg class="i h-3 w-3 opacity-40"><use href="#i-updown"></use></svg>
+                      </button>
+                    </th>
+                    <th class="px-3 py-3 font-semibold text-muted">Owner</th>
+                    <th class="whitespace-nowrap px-3 py-2.5 text-xs font-bold">
+                      <button type="button" class="inline-flex items-center gap-1 text-fg transition hover:text-fg">
+                        Created<svg class="i h-3 w-3"><use href="#i-arrow-down"></use></svg>
+                      </button>
+                    </th>
+                    <th class="w-12"></th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-line">
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <span class="avatar h-10 w-10 bg-saffron-soft text-saffron-t text-xs">TL</span>
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Theo Lindqvist</p>
+                          <p class="truncate text-xs text-muted">theo.lindqvist@gmail.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-iris-soft text-iris-t">New</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-globe"></use></svg>Website</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Conventional</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$486,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">761</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 74">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--saffron)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="51.1 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">74</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=47"
+                        alt="Elena Marquez"
+                        title="Elena Marquez"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">41 min ago</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Theo Lindqvist"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <span class="avatar h-10 w-10 bg-ember-soft text-ember-t text-xs">MC</span>
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Maya Castillo</p>
+                          <p class="truncate text-xs text-muted">maya.castillo@gmail.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-iris-soft text-iris-t">New</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-globe"></use></svg>Website</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-iris"></span>FHA</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$318,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">702</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 74">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--saffron)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="51.1 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">74</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=47"
+                        alt="Elena Marquez"
+                        title="Elena Marquez"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">42 min ago</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Maya Castillo"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <img class="h-10 w-10 shrink-0 rounded-full object-cover" src="https://i.pravatar.cc/80?img=12" alt="" loading="lazy" />
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">
+                            Hiro Tanabe<svg class="i h-3.5 w-3.5 !fill-current text-saffron"><use href="#i-star"></use></svg>
+                          </p>
+                          <p class="truncate text-xs text-muted">hiro.tanabe@yahoo.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-saffron-soft text-saffron-t">Contacted</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-briefcase"></use></svg>Agent referral</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-spruce"></span>VA</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$470,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">771</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 69">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--saffron)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="47.7 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">69</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=47"
+                        alt="Elena Marquez"
+                        title="Elena Marquez"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">2 d ago</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Hiro Tanabe"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <img class="h-10 w-10 shrink-0 rounded-full object-cover" src="https://i.pravatar.cc/80?img=15" alt="" loading="lazy" />
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Samir Khoury</p>
+                          <p class="truncate text-xs text-muted">samir.khoury@gmail.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-well text-muted">Nurture</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-briefcase"></use></svg>Agent referral</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Conventional</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$430,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">736</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 72">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--saffron)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="49.8 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">72</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=47"
+                        alt="Elena Marquez"
+                        title="Elena Marquez"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">5 d ago</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Samir Khoury"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <img class="h-10 w-10 shrink-0 rounded-full object-cover" src="https://i.pravatar.cc/80?img=33" alt="" loading="lazy" />
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">
+                            Kwame Mensah<svg class="i h-3.5 w-3.5 !fill-current text-saffron"><use href="#i-star"></use></svg>
+                          </p>
+                          <p class="truncate text-xs text-muted">kwame.mensah@icloud.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-iris-soft text-iris-t">New</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-globe"></use></svg>Website</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-iris"></span>FHA</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$380,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">657</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 23">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--ember)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="15.9 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">23</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=47"
+                        alt="Elena Marquez"
+                        title="Elena Marquez"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">6 d ago</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Kwame Mensah"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <img class="h-10 w-10 shrink-0 rounded-full object-cover" src="https://i.pravatar.cc/80?img=14" alt="" loading="lazy" />
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Peter Lawson</p>
+                          <p class="truncate text-xs text-muted">peter.lawson@outlook.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-saffron-soft text-saffron-t">Contacted</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-history"></use></svg>Past client</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Conventional</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$490,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">759</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 71">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--saffron)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="49.1 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">71</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=47"
+                        alt="Elena Marquez"
+                        title="Elena Marquez"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">6 d ago</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Peter Lawson"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <span class="avatar h-10 w-10 bg-spruce-soft text-spruce-t text-xs">MR</span>
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Marcus Reid</p>
+                          <p class="truncate text-xs text-muted">marcus.reid@gmail.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-ember-soft text-ember-t">Qualified</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-briefcase"></use></svg>Agent referral</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Conventional</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$520,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">772</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 98">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--spruce)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="67.7 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">98</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=60"
+                        alt="Owen Fletcher"
+                        title="Owen Fletcher"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">Oct 8</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Marcus Reid"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <span class="avatar h-10 w-10 bg-saffron-soft text-saffron-t text-xs">GA</span>
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Grace Adeyemi</p>
+                          <p class="truncate text-xs text-muted">grace.adeyemi@icloud.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-well text-faint">Lost</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-history"></use></svg>Past client</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-spruce"></span>VA</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$530,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">711</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 60">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--saffron)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="41.5 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">60</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=60"
+                        alt="Owen Fletcher"
+                        title="Owen Fletcher"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">Oct 6</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Grace Adeyemi"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <span class="avatar h-10 w-10 bg-saffron-soft text-saffron-t text-xs">TB</span>
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Tyler Brooks</p>
+                          <p class="truncate text-xs text-muted">tyler.brooks@outlook.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-well text-muted">Nurture</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-briefcase"></use></svg>Agent referral</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Conventional</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$500,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">747</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 77">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--saffron)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="53.2 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">77</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=60"
+                        alt="Owen Fletcher"
+                        title="Owen Fletcher"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">Oct 4</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Tyler Brooks"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition hover:bg-surface2">
+                    <td class="py-2.5 pl-5 pr-3">
+                      <div class="flex items-center gap-3">
+                        <span class="avatar h-10 w-10 bg-spruce-soft text-spruce-t text-xs">PS</span>
+                        <div class="min-w-0">
+                          <p class="flex items-center gap-1.5 text-sm font-bold">Priya Shah</p>
+                          <p class="truncate text-xs text-muted">priya.shah@gmail.com</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-3"><span class="pill bg-saffron-soft text-saffron-t">Contacted</span></td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] text-muted"
+                        ><svg class="i h-3.5 w-3.5"><use href="#i-briefcase"></use></svg>Agent referral</span
+                      >
+                    </td>
+                    <td class="whitespace-nowrap px-3">
+                      <span class="inline-flex items-center gap-2 text-[0.8125rem] font-bold"
+                        ><span class="h-1.5 w-1.5 rounded-full bg-ember"></span>Conventional</span
+                      >
+                    </td>
+                    <td class="px-3 text-right text-[0.8125rem] font-semibold tabular-nums">$280,000</td>
+                    <td class="px-3 text-right text-[0.8125rem] tabular-nums">635</td>
+                    <td class="px-3">
+                      <span class="relative grid h-8 w-8 shrink-0 place-items-center" title="Lead score 18">
+                        <svg viewBox="0 0 28 28" class="absolute inset-0 -rotate-90">
+                          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--well)" stroke-width="3"></circle>
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="11"
+                            fill="none"
+                            stroke="var(--ember)"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-dasharray="12.4 69.1"
+                          ></circle>
+                        </svg>
+                        <span class="text-[0.625rem] font-extrabold">18</span></span
+                      >
+                    </td>
+                    <td class="px-3">
+                      <img
+                        class="h-8 w-8 shrink-0 rounded-full object-cover"
+                        src="https://i.pravatar.cc/80?img=47"
+                        alt="Elena Marquez"
+                        title="Elena Marquez"
+                        loading="lazy"
+                      />
+                    </td>
+                    <td class="whitespace-nowrap px-3 text-[0.8125rem] text-muted">Oct 4</td>
+                    <td class="pr-4">
+                      <button
+                        type="button"
+                        class="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-well hover:text-fg"
+                        aria-label="Actions for Priya Shah"
+                      >
+                        <svg class="i"><use href="#i-dots"></use></svg>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="border-t border-line px-5 py-3 text-xs text-muted">Showing 10 of 38 leads</div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+      <dialog id="shortcutsDlg" class="w-[min(24rem,calc(100vw-2rem))] rounded-2xl border border-line bg-surface p-0 text-fg shadow-pop backdrop:bg-black/50">
+    <form method="dialog" class="p-5">
+      <h2 class="font-display text-lg font-bold tracking-tight">Keyboard shortcuts</h2>
+      <dl class="mt-3 divide-y divide-line text-sm">
+        <div class="flex items-center justify-between py-2.5"><dt class="text-muted">Focus search</dt><dd><kbd class="rounded-md border border-line px-1.5 py-0.5 text-xs font-bold">Ctrl / ⌘ + K</kbd></dd></div>
+        <div class="flex items-center justify-between py-2.5"><dt class="text-muted">Close menus and dialogs</dt><dd><kbd class="rounded-md border border-line px-1.5 py-0.5 text-xs font-bold">Esc</kbd></dd></div>
+      </dl>
+      <div class="mt-4 flex justify-end"><button class="btn">Close</button></div>
+    </form>
+  </dialog>
+
+  <script src="src/app.js" defer></script>
+  </body>
+</html>
